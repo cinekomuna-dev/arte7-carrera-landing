@@ -61,7 +61,7 @@ export default function Home() {
       {/* NAV */}
       <nav>
         <div className="nav-left">
-          <a href="https://arte7.net" className="nav-logo">ARTE<em>7</em></a>
+          <a href="https://arte7.net" className="nav-logo"><img src="/logo-blanco.png" alt="Arte7" className="nav-logo-img" /></a>
           <span className="nav-tag">// Escuela de Cine · CDMX</span>
         </div>
         <div className="nav-right">
@@ -419,8 +419,8 @@ export default function Home() {
       <footer>
         <div className="footer-grid">
           <div className="footer-brand">
-            <div className="fb-logo">ARTE<em>7</em></div>
-            <span className="fb-slogan">// We Make Cinema Possible</span>
+            <div className="fb-logo"><img src="/logo-blanco.png" alt="Arte7" className="footer-logo-img" /></div>
+            <span className="fb-slogan">// Hacemos el Cine Posible</span>
             <p className="fb-desc">
               Escuela de Cine y Casa Productora con 26 años formando cineastas en México. Fundada en 1999 en Coyoacán, CDMX. Sedes en Ciudad de México, Querétaro y modalidad online.
             </p>
