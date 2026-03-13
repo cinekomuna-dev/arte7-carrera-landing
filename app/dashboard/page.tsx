@@ -101,7 +101,7 @@ export default function DashboardPage() {
       {/* NAV */}
       <nav className="dash-nav">
         <div className="dash-nav-left">
-          <img src="/logo-blanco.png" alt="Arte7" style={{ height: 45 }} />
+          <img src="/logo-blanco.png" alt="Arte7" style={{ height: 120 }} />
           <span className="dash-nav-title">// LEADS DASHBOARD</span>
         </div>
         <div className="dash-nav-right">
