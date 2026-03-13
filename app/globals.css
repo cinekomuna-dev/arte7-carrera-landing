@@ -92,7 +92,7 @@ nav {
   text-decoration: none;
 }
 .nav-logo em { color: var(--red); font-style: normal; }
-.nav-logo-img { height: 55px; width: auto; display: block; }
+.nav-logo-img { height: 80px; width: auto; display: block; }
 
 .nav-tag {
   font-family: 'JetBrains Mono', monospace;
