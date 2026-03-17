@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Junta Arte7 — 17 Marzo 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1A1A1A;
+      --red: #FF492F;
+      --teal: #038B96;
+      --orange: #EE9628;
+      --darkred: #9D2F20;
+      --cream: #FDF3E0;
+      --gray: #2E2E2E;
+      --gray2: #3D3D3D;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26,26,26,0.97);
+      border-bottom: 2px solid var(--red);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 56px;
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--cream); letter-spacing: 0.1em; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--teal); letter-spacing: 0.1em; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--cream); text-decoration: none; letter-spacing: 0.08em; opacity: 0.6; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; color: var(--red); }
+
+    /* HERO */
+    .hero {
+      padding: 120px 60px 80px;
+      border-bottom: 1px solid var(--gray2);
+      position: relative; overflow: hidden;
+    }
+    .hero-ghost {
+      position: absolute; right: -20px; top: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28vw; line-height: 1;
+      color: rgba(255,73,47,0.04);
+      pointer-events: none; user-select: none;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      color: var(--teal); margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero-h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.9; letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+    .hero-h1 .accent { color: var(--red); display: block; }
+    .hero-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; color: rgba(253,243,224,0.55);
+      margin-top: 20px; max-width: 480px; line-height: 1.6;
+    }
+    .hero-meta {
+      display: flex; gap: 40px; margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .hmeta { display: flex; flex-direction: column; gap: 4px; }
+    .hmeta-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase; }
+    .hmeta-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; }
+
+    /* SECTION */
+    section { padding: 72px 60px; border-bottom: 1px solid var(--gray2); }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.15em;
+      color: var(--teal); margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1; margin-bottom: 40px; letter-spacing: 0.02em;
+    }
+    .section-title em { color: var(--red); font-style: normal; }
+
+    /* STATUS PILLS */
+    .status-bar {
+      display: flex; gap: 16px; margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px;
+      border: 1px solid;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pill.green { border-color: #2ECC71; color: #2ECC71; }
+    .pill.red { border-color: var(--red); color: var(--red); }
+    .pill.orange { border-color: var(--orange); color: var(--orange); }
+    .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* LOGROS GRID */
+    .logros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
+    .logro-card {
+      background: var(--gray); padding: 28px;
+      border-left: 3px solid var(--red);
+      position: relative; overflow: hidden;
+    }
+    .logro-card::before {
+      content: attr(data-n);
+      position: absolute; right: 16px; bottom: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem; color: rgba(255,73,47,0.06);
+      line-height: 1;
+    }
+    .logro-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--teal); letter-spacing: 0.12em; margin-bottom: 10px; }
+    .logro-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .logro-desc { font-size: 0.83rem; line-height: 1.5; color: rgba(253,243,224,0.65); }
+    .logro-url { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--red); margin-top: 12px; display: block; }
+
+    /* ACCESOS */
+    .accesos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2px; }
+    .acceso-block {
+      background: var(--gray); padding: 28px;
+      border-top: 2px solid var(--teal);
+    }
+    .acceso-plat { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 4px; }
+    .acceso-url { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(253,243,224,0.4); margin-bottom: 16px; }
+    .acceso-users { display: flex; flex-direction: column; gap: 10px; }
+    .acceso-user {
+      background: var(--gray2); padding: 12px 14px;
+      border-left: 2px solid var(--gray2);
+      transition: border-color 0.2s;
+    }
+    .acceso-user:hover { border-color: var(--red); }
+    .acceso-email { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--cream); }
+    .acceso-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .acceso-pass {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: rgba(253,243,224,0.4); flex: 1;
+      filter: blur(4px); transition: filter 0.2s; cursor: pointer;
+    }
+    .acceso-pass.visible { filter: none; color: var(--orange); }
+    .acceso-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      background: var(--black); color: var(--teal);
+      padding: 2px 8px; letter-spacing: 0.1em;
+    }
+    .copy-btn {
+      background: none; border: 1px solid var(--gray2);
+      color: rgba(253,243,224,0.4); font-size: 0.6rem;
+      padding: 2px 6px; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+      transition: all 0.15s; letter-spacing: 0.05em;
+    }
+    .copy-btn:hover { border-color: var(--red); color: var(--red); }
+    .copy-btn.copied { border-color: #2ECC71; color: #2ECC71; }
+
+    /* PENDIENTES */
+    .pendientes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    @media(max-width:768px){ .pendientes-grid { grid-template-columns: 1fr; } }
+
+    .pendiente-item {
+      background: var(--gray); padding: 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+      border-left: 3px solid transparent;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .pendiente-item.done { border-color: #2ECC71; }
+    .pendiente-item.done .pendiente-title { text-decoration: line-through; opacity: 0.5; }
+
+    .pendiente-check {
+      width: 22px; height: 22px; min-width: 22px;
+      border: 2px solid var(--gray2);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px; transition: all 0.2s;
+      font-size: 0.75rem; color: #2ECC71;
+    }
+    .pendiente-item.done .pendiente-check { border-color: #2ECC71; background: rgba(46,204,113,0.1); }
+
+    .pendiente-body { flex: 1; }
+    .pendiente-n { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--red); letter-spacing: 0.12em; margin-bottom: 4px; }
+    .pendiente-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .pendiente-desc { font-size: 0.78rem; color: rgba(253,243,224,0.55); line-height: 1.5; }
+    .pendiente-input {
+      width: 100%; margin-top: 10px;
+      background: var(--gray2); border: 1px solid var(--gray2);
+      color: var(--cream); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; padding: 8px 10px;
+      outline: none; transition: border-color 0.2s;
+    }
+    .pendiente-input:focus { border-color: var(--orange); }
+    .pendiente-input::placeholder { color: rgba(253,243,224,0.25); }
+
+    /* AGENDA */
+    .agenda-list { display: flex; flex-direction: column; gap: 2px; }
+    .agenda-item {
+      display: flex; align-items: center; gap: 20px;
+      background: var(--gray); padding: 20px 24px;
+      cursor: pointer; transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .agenda-item:hover { background: var(--gray2); }
+    .agenda-item.done { border-color: #2ECC71; }
+    .agenda-item.done .agenda-title { opacity: 0.4; }
+    .agenda-time { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--teal); min-width: 60px; }
+    .agenda-check2 {
+      width: 18px; height: 18px; min-width: 18px;
+      border: 2px solid var(--gray2); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 0.65rem; color: #2ECC71; transition: all 0.2s;
+    }
+    .agenda-item.done .agenda-check2 { border-color: #2ECC71; background: rgba(46,204,113,0.1); }
+    .agenda-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; }
+    .agenda-dur { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: rgba(253,243,224,0.3); margin-left: auto; }
+
+    /* PRÓXIMOS PASOS */
+    .pasos-grid { display: flex; flex-direction: column; gap: 2px; }
+    .paso {
+      display: flex; gap: 24px;
+      background: var(--gray); padding: 24px;
+      border-left: 3px solid var(--gray2);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .paso:hover { border-color: var(--orange); }
+    .paso.done { border-color: #2ECC71; }
+    .paso.done .paso-title { text-decoration: line-through; opacity: 0.4; }
+    .paso-n { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--red); opacity: 0.4; line-height: 1; min-width: 48px; }
+    .paso-body { flex: 1; }
+    .paso-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 4px; }
+    .paso-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .paso-desc { font-size: 0.78rem; color: rgba(253,243,224,0.55); line-height: 1.5; }
+    .paso-check3 {
+      width: 22px; height: 22px; min-width: 22px;
+      border: 2px solid var(--gray2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: #2ECC71; transition: all 0.2s; margin-top: 4px;
+    }
+    .paso.done .paso-check3 { border-color: #2ECC71; background: rgba(46,204,113,0.1); }
+
+    /* NOTAS */
+    .notas-area {
+      width: 100%; min-height: 200px;
+      background: var(--gray); border: 1px solid var(--gray2);
+      color: var(--cream); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; padding: 20px; outline: none; resize: vertical;
+      line-height: 1.7; transition: border-color 0.2s;
+    }
+    .notas-area:focus { border-color: var(--orange); }
+    .notas-area::placeholder { color: rgba(253,243,224,0.2); }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 2px solid var(--red);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.1em; }
+    .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(253,243,224,0.35); }
+
+    /* PROGRESS BAR */
+    .progress-bar-wrap {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--gray2); z-index: 200;
+    }
+    .progress-bar { height: 100%; background: var(--red); width: 0%; transition: width 0.3s; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #2ECC71; color: #1A1A1A;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      padding: 10px 18px; transform: translateY(80px);
+      transition: transform 0.3s; z-index: 300; letter-spacing: 0.06em;
+    }
+    .toast.show { transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:768px) {
+      nav { padding: 0 20px; }
+      .hero { padding: 96px 24px 60px; }
+      section { padding: 48px 24px; }
+      footer { padding: 32px 24px; }
+      .pendientes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">ARTE7 // JUNTA</span>
+  <div class="nav-links">
+    <a href="#logros">Logros</a>
+    <a href="#accesos">Accesos</a>
+    <a href="#pendientes">Pendientes</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#pasos">Siguientes</a>
+    <a href="#notas">Notas</a>
+  </div>
+  <span class="nav-date">17.03.2026</span>
+</nav>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">¡Copiado!</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ghost" aria-hidden="true">A7</div>
+  <div class="hero-eyebrow">// Arte7 Escuela de Cine &nbsp;·&nbsp; Estrategia Digital &nbsp;·&nbsp; Sesión de trabajo</div>
+  <h1 class="hero-h1">
+    JUNTA
+    <span class="accent">17 MARZO</span>
+  </h1>
+  <p class="hero-sub">Revisión de sistemas implementados, pendientes de arte7 y definición de próximos pasos para el sistema de captación de leads.</p>
+  <div class="hero-meta">
+    <div class="hmeta">
+      <span class="hmeta-label">// Sistemas activos</span>
+      <span class="hmeta-val">02</span>
+    </div>
+    <div class="hmeta">
+      <span class="hmeta-label">// Leads capturados</span>
+      <span class="hmeta-val">✓</span>
+    </div>
+    <div class="hmeta">
+      <span class="hmeta-label">// Stack</span>
+      <span class="hmeta-val">$0/MES</span>
+    </div>
+    <div class="hmeta">
+      <span class="hmeta-label">// Próximo</span>
+      <span class="hmeta-val">PAUTA</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOGROS -->
+<section id="logros">
+  <div class="section-label">// 001 — Lo que ya está vivo</div>
+  <h2 class="section-title">SISTEMAS <em>EN PRODUCCIÓN</em></h2>
+
+  <div class="status-bar">
+    <div class="pill green"><div class="pill-dot"></div>solicitudes.arte7.net — LIVE</div>
+    <div class="pill green"><div class="pill-dot"></div>carrera.arte7.net — LIVE</div>
+    <div class="pill green"><div class="pill-dot"></div>Dashboard de leads — LIVE</div>
+    <div class="pill orange"><div class="pill-dot"></div>Meta Pixel — Pendiente</div>
+    <div class="pill orange"><div class="pill-dot"></div>Emails automáticos — Pendiente</div>
+  </div>
+
+  <div class="logros-grid">
+    <div class="logro-card" data-n="01">
+      <div class="logro-tag">// Sistema de Solicitudes de Diseño</div>
+      <div class="logro-title">SOLICITUDES.ARTE7.NET</div>
+      <div class="logro-desc">App full-stack con login por sede, vistas de coordinador y creativo, Kanban, comentarios, asignación de diseñadores y notificaciones por email. 4 usuarios activos.</div>
+      <a class="logro-url" href="https://solicitudes.arte7.net" target="_blank">→ solicitudes.arte7.net</a>
+    </div>
+    <div class="logro-card" data-n="02">
+      <div class="logro-tag">// Landing de Captación de Leads</div>
+      <div class="logro-title">CARRERA.ARTE7.NET</div>
+      <div class="logro-desc">Landing brutalista con plan de estudios completo, proceso de admisión, formulario de registro con UTM tracking y lead scoring automático. Redirect a WhatsApp tras registro.</div>
+      <a class="logro-url" href="https://carrera.arte7.net" target="_blank">→ carrera.arte7.net</a>
+    </div>
+    <div class="logro-card" data-n="03">
+      <div class="logro-tag">// Panel de administración de leads</div>
+      <div class="logro-title">DASHBOARD DE LEADS</div>
+      <div class="logro-desc">Panel para Cary con todos los leads en tiempo real, filtros por estado e interés, lead scoring (0–100), cambio de estado y búsqueda. Actualización automática sin recargar.</div>
+      <a class="logro-url" href="https://carrera.arte7.net/dashboard" target="_blank">→ carrera.arte7.net/dashboard</a>
+    </div>
+    <div class="logro-card" data-n="04">
+      <div class="logro-tag">// Infraestructura técnica</div>
+      <div class="logro-title">STACK COMPLETO $0/MES</div>
+      <div class="logro-desc">Next.js 15 + Supabase + Vercel + Cloudflare + Resend. Todo en plan gratuito. Emails transaccionales con dominio arte7.net verificado. SSL Full Strict en Cloudflare.</div>
+      <span class="logro-url">→ GitHub: cinekomuna-dev</span>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESOS -->
+<section id="accesos">
+  <div class="section-label">// 002 — Credenciales y accesos</div>
+  <h2 class="section-title">ACCESOS <em>DEL SISTEMA</em></h2>
+  <p style="font-size:0.8rem;color:rgba(253,243,224,0.4);margin-bottom:32px;font-family:'JetBrains Mono',monospace;">// Haz clic en la contraseña para verla · Haz clic en COPY para copiar</p>
+
+  <div class="accesos-grid">
+
+    <!-- SOLICITUDES -->
+    <div class="acceso-block">
+      <div class="acceso-plat">SOLICITUDES.ARTE7.NET</div>
+      <div class="acceso-url">supabase.com/dashboard/project/ldshstbcewcajjenugmr</div>
+      <div class="acceso-users">
+        <div class="acceso-user">
+          <div class="acceso-email">coordinacion@arte7.net</div>
+          <div class="acceso-row">
+            <span class="acceso-pass" onclick="togglePass(this)">Arte7cdmx2026!</span>
+            <button class="copy-btn" onclick="copyText('Arte7cdmx2026!', this)">COPY</button>
+            <span class="acceso-role">Coordinadora CDMX</span>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">coordinacionqro@arte7.net</div>
+          <div class="acceso-row">
+            <span class="acceso-pass" onclick="togglePass(this)">Arte7qro2026!</span>
+            <button class="copy-btn" onclick="copyText('Arte7qro2026!', this)">COPY</button>
+            <span class="acceso-role">Coordinadora QRO</span>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">ladxidua@arte7.net</div>
+          <div class="acceso-row">
+            <span class="acceso-pass" onclick="togglePass(this)">Arte7admin2026!</span>
+            <button class="copy-btn" onclick="copyText('Arte7admin2026!', this)">COPY</button>
+            <span class="acceso-role">Coordinadora CDMX</span>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">nino@dreamsmatter.ai</div>
+          <div class="acceso-row">
+            <span class="acceso-pass" onclick="togglePass(this)">Arte7crea2026!</span>
+            <button class="copy-btn" onclick="copyText('Arte7crea2026!', this)">COPY</button>
+            <span class="acceso-role">Creativo / Admin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARRERA LEADS -->
+    <div class="acceso-block">
+      <div class="acceso-plat">CARRERA.ARTE7.NET/DASHBOARD</div>
+      <div class="acceso-url">Dashboard de leads para coordinación de admisiones</div>
+      <div class="acceso-users">
+        <div class="acceso-user">
+          <div class="acceso-email">cary@arte7.net</div>
+          <div class="acceso-row">
+            <span class="acceso-pass" onclick="togglePass(this)">Arte7leads2026!</span>
+            <button class="copy-btn" onclick="copyText('Arte7leads2026!', this)">COPY</button>
+            <span class="acceso-role">Dashboard Leads</span>
+          </div>
+        </div>
+        <div class="acceso-user" style="border-left:2px dashed rgba(253,243,224,0.1);">
+          <div class="acceso-email" style="opacity:0.35;">+ Usuario adicional (por definir)</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(253,243,224,0.25);">A crear en Supabase Auth si se necesita</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLATAFORMAS -->
+    <div class="acceso-block">
+      <div class="acceso-plat">PLATAFORMAS ADMIN</div>
+      <div class="acceso-url">Accesos de administración del stack técnico</div>
+      <div class="acceso-users">
+        <div class="acceso-user">
+          <div class="acceso-email">Supabase (BD + Auth)</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(253,243,224,0.4);flex:1;">supabase.com → proyecto ldshstbcewcajjenugmr</span>
+            <button class="copy-btn" onclick="copyText('https://supabase.com/dashboard/project/ldshstbcewcajjenugmr', this)">COPY</button>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">Vercel (Deploy)</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(253,243,224,0.4);flex:1;">vercel.com → cinekomuna-devs-projects</span>
+            <button class="copy-btn" onclick="copyText('https://vercel.com/cinekomuna-devs-projects', this)">COPY</button>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">Cloudflare (DNS + SSL)</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(253,243,224,0.4);flex:1;">dash.cloudflare.com → Nino@dreamsmatter.ai</span>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">GitHub (Código)</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(253,243,224,0.4);flex:1;">github.com/cinekomuna-dev</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESEND -->
+    <div class="acceso-block">
+      <div class="acceso-plat">EMAIL — RESEND</div>
+      <div class="acceso-url">Emails transaccionales desde arte7.net verificado</div>
+      <div class="acceso-users">
+        <div class="acceso-user">
+          <div class="acceso-email">leads@arte7.net → cary@arte7.net</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#2ECC71;">✓ Dominio verificado y funcionando</span>
+          </div>
+        </div>
+        <div class="acceso-user">
+          <div class="acceso-email">Notificaciones de solicitudes</div>
+          <div class="acceso-row">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#2ECC71;">✓ Activo en solicitudes.arte7.net</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PENDIENTES DE ARTE7 -->
+<section id="pendientes">
+  <div class="section-label">// 003 — Lo que necesitamos de Arte7</div>
+  <h2 class="section-title">PENDIENTES <em>DE ARTE7</em></h2>
+  <p style="font-size:0.8rem;color:rgba(253,243,224,0.4);margin-bottom:32px;font-family:'JetBrains Mono',monospace;">// Haz clic en cada item para marcarlo como resuelto</p>
+
+  <div class="pendientes-grid">
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// URGENTE — SIN ESTO NO ARRANCA PAUTA</div>
+        <div class="pendiente-title">ACCESO A META BUSINESS MANAGER</div>
+        <div class="pendiente-desc">Necesitamos que nos agreguen como admin a la cuenta de Meta Ads de Arte7 para instalar el Pixel y configurar las campañas.</div>
+        <input class="pendiente-input" placeholder="ID de Meta Business Manager o email del admin..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// URGENTE — DEFINE EL PRESUPUESTO</div>
+        <div class="pendiente-title">PRESUPUESTO DE PAUTA MES 1</div>
+        <div class="pendiente-desc">¿Cuánto van a invertir en Meta Ads el primer mes? El sistema ya está listo para recibir tráfico. Recomendado: $6,000–$8,000 MXN para validar.</div>
+        <input class="pendiente-input" placeholder="Ej: $6,000 MXN / mes..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// CONFIRMACIÓN</div>
+        <div class="pendiente-title">WHATSAPP DE CARY CONFIRMADO</div>
+        <div class="pendiente-desc">El sistema actualmente redirige al +52 55 5659-0075. ¿Es correcto? ¿Es el número que debe recibir los leads de admisiones?</div>
+        <input class="pendiente-input" placeholder="Número de Cary para WhatsApp de leads..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// DECISIÓN</div>
+        <div class="pendiente-title">FECHA DE ARRANQUE DE PAUTA</div>
+        <div class="pendiente-desc">¿Cuándo quieren correr el primer anuncio? El sistema puede recibir tráfico hoy mismo. Solo falta el Pixel y el creativo.</div>
+        <input class="pendiente-input" placeholder="Fecha objetivo para primer anuncio en vivo..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// TÉCNICO</div>
+        <div class="pendiente-title">META PIXEL ID Y GA4</div>
+        <div class="pendiente-desc">¿Ya tienen Meta Pixel instalado en arte7.net? ¿Tienen cuenta de Google Analytics 4? Si sí, necesitamos los IDs. Si no, los creamos juntos.</div>
+        <input class="pendiente-input" placeholder="Pixel ID: ej. 123456789..." onclick="event.stopPropagation()" />
+        <input class="pendiente-input" style="margin-top:6px;" placeholder="GA4 Measurement ID: ej. G-XXXXXXXXXX..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// PROCESO</div>
+        <div class="pendiente-title">FLUJO DE APROBACIÓN DE ANUNCIOS</div>
+        <div class="pendiente-desc">¿Cómo funciona? Nino propone copy + creativo → Arte7 aprueba → se publica. ¿Quién es el responsable de aprobar de su lado?</div>
+        <input class="pendiente-input" placeholder="Nombre del responsable de aprobación..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// CONTENIDO</div>
+        <div class="pendiente-title">MATERIALES CREATIVOS PARA ANUNCIOS</div>
+        <div class="pendiente-desc">¿Tienen video/fotos de la escuela, alumnos, sets de filmación? El creativo visual es clave para los anuncios en Meta. ¿Dónde están los archivos?</div>
+        <input class="pendiente-input" placeholder="Link a carpeta de Drive / Dropbox con creativos..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+    <div class="pendiente-item" onclick="togglePendiente(this)">
+      <div class="pendiente-check">✓</div>
+      <div class="pendiente-body">
+        <div class="pendiente-n">// SEGUIMIENTO</div>
+        <div class="pendiente-title">SIGUIENTE JUNTA AGENDADA</div>
+        <div class="pendiente-desc">Antes de salir: agendar la próxima reunión. Recomendado: 1 semana después para revisar primeros leads y ajustar.</div>
+        <input class="pendiente-input" placeholder="Fecha y hora de la próxima junta..." onclick="event.stopPropagation()" />
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="section-label">// 004 — Agenda de la sesión</div>
+  <h2 class="section-title">AGENDA <em>DE HOY</em></h2>
+
+  <div class="agenda-list">
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:00</div>
+      <div class="agenda-title">Intro + revisión del reporte de logros enviado</div>
+      <div class="agenda-dur">5 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:05</div>
+      <div class="agenda-title">Demo en vivo — solicitudes.arte7.net</div>
+      <div class="agenda-dur">10 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:15</div>
+      <div class="agenda-title">Demo en vivo — carrera.arte7.net + formulario de leads</div>
+      <div class="agenda-dur">10 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:25</div>
+      <div class="agenda-title">Demo dashboard de Cary — ver leads en tiempo real</div>
+      <div class="agenda-dur">10 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:35</div>
+      <div class="agenda-title">Resolver pendientes de Arte7 (Pixel, presupuesto, materiales)</div>
+      <div class="agenda-dur">15 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">00:50</div>
+      <div class="agenda-title">Definir fecha de arranque de pauta y próximos pasos</div>
+      <div class="agenda-dur">10 MIN</div>
+    </div>
+    <div class="agenda-item" onclick="toggleAgenda(this)">
+      <div class="agenda-check2">✓</div>
+      <div class="agenda-time">01:00</div>
+      <div class="agenda-title">Agendar siguiente junta</div>
+      <div class="agenda-dur">5 MIN</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS PASOS -->
+<section id="pasos">
+  <div class="section-label">// 005 — Roadmap post-junta</div>
+  <h2 class="section-title">PRÓXIMOS <em>PASOS</em></h2>
+
+  <div class="pasos-grid">
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">01</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Esta semana — Alta prioridad</div>
+        <div class="paso-title">INSTALAR META PIXEL EN CARRERA.ARTE7.NET</div>
+        <div class="paso-desc">Con el Pixel ID de Arte7, lo instalamos en la landing en ~15 min. Sin esto Meta no puede optimizar para conversiones ni hacer retargeting.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">02</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Esta semana — Alta prioridad</div>
+        <div class="paso-title">GOOGLE ANALYTICS 4 EN LANDING</div>
+        <div class="paso-desc">Instalar GA4 para trackear comportamiento de usuarios: cuánto tiempo pasan, qué secciones leen, de dónde vienen, en qué dispositivo.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">03</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Semana 2 — Media prioridad</div>
+        <div class="paso-title">SECUENCIA DE EMAILS AUTOMÁTICOS</div>
+        <div class="paso-desc">Cuando entra un lead, recibe emails en día 1, 3, 7 y 14 con información de la carrera, testimonios y llamadas a la acción. Todo automatizado con Resend.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">04</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Semana 2 — Media prioridad</div>
+        <div class="paso-title">NOTIFICACIÓN WHATSAPP A CARY</div>
+        <div class="paso-desc">Cuando entra un lead nuevo, Cary recibe un mensaje de WhatsApp automático con nombre, email, teléfono, interés y score del lead. Vía Twilio o WhatsApp Business API.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">05</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Semana 3 — Pauta activa</div>
+        <div class="paso-title">PRIMER ANUNCIO EN META ADS</div>
+        <div class="paso-desc">Con el Pixel instalado y creativos listos: configurar campaña de conversión en Meta apuntando a carrera.arte7.net. Target: prospectos 18–30, interesados en cine y artes.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+    <div class="paso" onclick="togglePaso(this)">
+      <div class="paso-n">06</div>
+      <div class="paso-body">
+        <div class="paso-tag">// Mes 2 — Optimización</div>
+        <div class="paso-title">REPORTES AUTOMÁTICOS DE LEADS Y ROAS</div>
+        <div class="paso-desc">Reporte semanal automático para dirección: número de leads, score promedio, tasa de conversión, ROAS de pauta. Todo sin trabajo manual.</div>
+      </div>
+      <div class="paso-check3">✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTAS -->
+<section id="notas">
+  <div class="section-label">// 006 — Notas de la sesión</div>
+  <h2 class="section-title">NOTAS <em>EN VIVO</em></h2>
+  <textarea class="notas-area" placeholder="// Escribe aquí los acuerdos, comentarios y decisiones de la junta...&#10;&#10;Ejemplo:&#10;- Meta Pixel ID: ...&#10;- Presupuesto aprobado: $...&#10;- Cary confirma: ...&#10;- Próxima junta: ..." id="notasArea"></textarea>
+  <div style="display:flex;gap:12px;margin-top:12px;">
+    <button onclick="copyNotas()" class="copy-btn" style="font-size:0.75rem;padding:10px 20px;">COPIAR NOTAS</button>
+    <button onclick="clearNotas()" class="copy-btn" style="font-size:0.75rem;padding:10px 20px;border-color:#9D2F20;color:#9D2F20;">LIMPIAR</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">ARTE7 // ESCUELA DE CINE · CDMX</div>
+  <div class="footer-meta">// Sesión 17.03.2026 · Estrategia Digital by Nino Cozzi · nino@dreamsmatter.ai</div>
+</footer>
+
+<script>
+  // TOGGLE PASS
+  function togglePass(el) {
+    el.classList.toggle('visible');
+  }
+
+  // COPY
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ OK';
+      btn.classList.add('copied');
+      showToast();
+      setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // TOGGLE PENDIENTE
+  function togglePendiente(el) {
+    if (event.target.tagName === 'INPUT') return;
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  // TOGGLE AGENDA
+  function toggleAgenda(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  // TOGGLE PASO
+  function togglePaso(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  // PROGRESS
+  function updateProgress() {
+    const total = document.querySelectorAll('.pendiente-item, .agenda-item, .paso').length;
+    const done = document.querySelectorAll('.pendiente-item.done, .agenda-item.done, .paso.done').length;
+    const pct = total > 0 ? (done / total) * 100 : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  // TOAST
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // NOTAS
+  function copyNotas() {
+    const val = document.getElementById('notasArea').value;
+    if (!val.trim()) return;
+    navigator.clipboard.writeText(val).then(showToast);
+  }
+  function clearNotas() {
+    if (confirm('¿Borrar notas?')) document.getElementById('notasArea').value = '';
+  }
+
+  // SAVE STATE in localStorage
+  window.addEventListener('load', () => {
+    // Restore notas
+    const saved = localStorage.getItem('a7junta_notas');
+    if (saved) document.getElementById('notasArea').value = saved;
+
+    // Restore inputs
+    document.querySelectorAll('.pendiente-input').forEach((inp, i) => {
+      const val = localStorage.getItem('a7junta_input_' + i);
+      if (val) inp.value = val;
+      inp.addEventListener('input', () => localStorage.setItem('a7junta_input_' + i, inp.value));
+    });
+
+    updateProgress();
+  });
+
+  document.getElementById('notasArea').addEventListener('input', (e) => {
+    localStorage.setItem('a7junta_notas', e.target.value);
+  });
+</script>
+</body>
+</html>
