@@ -314,7 +314,24 @@
     <a href="#notas">Notas</a>
   </div>
   <span class="nav-date">17.03.2026</span>
+  <button id="btnMinuta" onclick="generarMinuta()" style="
+    background:var(--red);color:var(--cream);border:none;cursor:pointer;
+    font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;
+    padding:7px 16px;transition:opacity 0.2s;white-space:nowrap;
+  " onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+    ⬡ GENERAR MINUTA
+  </button>
 </nav>
+
+<!-- MODAL MINUTA -->
+<div id="modalMinuta" style="display:none;position:fixed;inset:0;background:rgba(26,26,26,0.96);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#1A1A1A;border:2px solid var(--red);padding:40px;max-width:480px;width:90%;text-align:center;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;color:var(--red);margin-bottom:16px;">// GENERAR MINUTA</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.05em;margin-bottom:12px;" id="modalStatus">ENVIANDO...</div>
+    <div style="font-size:0.8rem;color:rgba(253,243,224,0.55);line-height:1.6;" id="modalDesc">Recopilando pendientes, agenda, notas y próximos pasos...</div>
+    <button onclick="cerrarModal()" style="margin-top:24px;background:transparent;border:1px solid rgba(253,243,224,0.2);color:rgba(253,243,224,0.5);font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;padding:8px 20px;cursor:pointer;">CERRAR</button>
+  </div>
+</div>
 
 <!-- PROGRESS BAR -->
 <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
@@ -782,84 +799,168 @@
 </footer>
 
 <script>
-  // TOGGLE PASS
-  function togglePass(el) {
-    el.classList.toggle('visible');
+  const LS = 'a7junta_17mar';
+
+  // ── LOAD STATE ──────────────────────────────────────────────
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch { return {}; }
+  }
+  function saveState(patch) {
+    const s = loadState();
+    localStorage.setItem(LS, JSON.stringify({ ...s, ...patch }));
   }
 
-  // COPY
+  // ── RESTORE ON LOAD ─────────────────────────────────────────
+  window.addEventListener('load', () => {
+    const s = loadState();
+
+    // Notas
+    if (s.notas) document.getElementById('notasArea').value = s.notas;
+
+    // Pendiente done + inputs
+    document.querySelectorAll('.pendiente-item').forEach((el, i) => {
+      if (s['p_done_' + i]) el.classList.add('done');
+      const inp = el.querySelector('.pendiente-input');
+      if (inp && s['p_inp_' + i]) inp.value = s['p_inp_' + i];
+      if (inp) inp.addEventListener('input', () => saveState({ ['p_inp_' + i]: inp.value }));
+    });
+
+    // Agenda done
+    document.querySelectorAll('.agenda-item').forEach((el, i) => {
+      if (s['ag_done_' + i]) el.classList.add('done');
+    });
+
+    // Pasos done
+    document.querySelectorAll('.paso').forEach((el, i) => {
+      if (s['ps_done_' + i]) el.classList.add('done');
+    });
+
+    updateProgress();
+  });
+
+  // ── TOGGLES ─────────────────────────────────────────────────
+  function togglePass(el) { el.classList.toggle('visible'); }
+
+  function togglePendiente(el) {
+    if (event.target.tagName === 'INPUT') return;
+    el.classList.toggle('done');
+    const i = [...document.querySelectorAll('.pendiente-item')].indexOf(el);
+    saveState({ ['p_done_' + i]: el.classList.contains('done') });
+    updateProgress();
+  }
+
+  function toggleAgenda(el) {
+    el.classList.toggle('done');
+    const i = [...document.querySelectorAll('.agenda-item')].indexOf(el);
+    saveState({ ['ag_done_' + i]: el.classList.contains('done') });
+    updateProgress();
+  }
+
+  function togglePaso(el) {
+    el.classList.toggle('done');
+    const i = [...document.querySelectorAll('.paso')].indexOf(el);
+    saveState({ ['ps_done_' + i]: el.classList.contains('done') });
+    updateProgress();
+  }
+
+  // ── COPY ────────────────────────────────────────────────────
   function copyText(text, btn) {
     navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '✓ OK';
-      btn.classList.add('copied');
+      btn.textContent = '✓ OK'; btn.classList.add('copied');
       showToast();
       setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
     });
   }
 
-  // TOGGLE PENDIENTE
-  function togglePendiente(el) {
-    if (event.target.tagName === 'INPUT') return;
-    el.classList.toggle('done');
-    updateProgress();
-  }
-
-  // TOGGLE AGENDA
-  function toggleAgenda(el) {
-    el.classList.toggle('done');
-    updateProgress();
-  }
-
-  // TOGGLE PASO
-  function togglePaso(el) {
-    el.classList.toggle('done');
-    updateProgress();
-  }
-
-  // PROGRESS
-  function updateProgress() {
-    const total = document.querySelectorAll('.pendiente-item, .agenda-item, .paso').length;
-    const done = document.querySelectorAll('.pendiente-item.done, .agenda-item.done, .paso.done').length;
-    const pct = total > 0 ? (done / total) * 100 : 0;
-    document.getElementById('progressBar').style.width = pct + '%';
-  }
-
-  // TOAST
-  function showToast() {
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
-  }
-
-  // NOTAS
   function copyNotas() {
     const val = document.getElementById('notasArea').value;
     if (!val.trim()) return;
     navigator.clipboard.writeText(val).then(showToast);
   }
   function clearNotas() {
-    if (confirm('¿Borrar notas?')) document.getElementById('notasArea').value = '';
+    if (confirm('¿Borrar notas?')) {
+      document.getElementById('notasArea').value = '';
+      saveState({ notas: '' });
+    }
   }
 
-  // SAVE STATE in localStorage
-  window.addEventListener('load', () => {
-    // Restore notas
-    const saved = localStorage.getItem('a7junta_notas');
-    if (saved) document.getElementById('notasArea').value = saved;
-
-    // Restore inputs
-    document.querySelectorAll('.pendiente-input').forEach((inp, i) => {
-      const val = localStorage.getItem('a7junta_input_' + i);
-      if (val) inp.value = val;
-      inp.addEventListener('input', () => localStorage.setItem('a7junta_input_' + i, inp.value));
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('notasArea').addEventListener('input', (e) => {
+      saveState({ notas: e.target.value });
     });
-
-    updateProgress();
   });
 
-  document.getElementById('notasArea').addEventListener('input', (e) => {
-    localStorage.setItem('a7junta_notas', e.target.value);
-  });
+  // ── PROGRESS BAR ────────────────────────────────────────────
+  function updateProgress() {
+    const total = document.querySelectorAll('.pendiente-item, .agenda-item, .paso').length;
+    const done  = document.querySelectorAll('.pendiente-item.done, .agenda-item.done, .paso.done').length;
+    document.getElementById('progressBar').style.width = (total > 0 ? (done/total)*100 : 0) + '%';
+  }
+
+  // ── TOAST ───────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    if (msg) t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => { t.classList.remove('show'); t.textContent = '¡Copiado!'; }, 2500);
+  }
+
+  // ── MODAL ───────────────────────────────────────────────────
+  function cerrarModal() {
+    document.getElementById('modalMinuta').style.display = 'none';
+  }
+
+  // ── GENERAR MINUTA ──────────────────────────────────────────
+  async function generarMinuta() {
+    // Recopilar estado actual
+    const pendientes = [...document.querySelectorAll('.pendiente-item')].map((el, i) => ({
+      title: el.querySelector('.pendiente-title')?.innerText?.trim() || '',
+      done:  el.classList.contains('done'),
+      input: el.querySelector('.pendiente-input')?.value?.trim() || ''
+    }));
+
+    const agenda = [...document.querySelectorAll('.agenda-item')].map(el => ({
+      title: el.querySelector('.agenda-title')?.innerText?.trim() || el.innerText?.trim().slice(0, 80),
+      done:  el.classList.contains('done')
+    }));
+
+    const notas = document.getElementById('notasArea')?.value?.trim() || '';
+
+    const pasos = [...document.querySelectorAll('.paso')].map(el => ({
+      label: el.querySelector('.paso-n')?.innerText?.trim() || '',
+      title: el.querySelector('.paso-title')?.innerText?.trim() || '',
+      done:  el.classList.contains('done')
+    }));
+
+    const fecha = '17 MARZO 2026';
+
+    // Mostrar modal
+    const modal = document.getElementById('modalMinuta');
+    document.getElementById('modalStatus').textContent = 'ENVIANDO...';
+    document.getElementById('modalDesc').textContent = 'Recopilando pendientes, agenda, notas y próximos pasos...';
+    modal.style.display = 'flex';
+
+    try {
+      const res = await fetch('/api/minuta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fecha, pendientes, agenda, notas, pasos })
+      });
+
+      if (res.ok) {
+        document.getElementById('modalStatus').textContent = '¡ENVIADA!';
+        document.getElementById('modalDesc').innerHTML =
+          'Minuta enviada a <strong>nino@dreamsmatter.ai</strong><br/>con el resumen completo de la sesión.';
+        document.getElementById('btnMinuta').textContent = '✓ MINUTA ENVIADA';
+        showToast('¡Minuta enviada!');
+      } else {
+        throw new Error('Error del servidor');
+      }
+    } catch (err) {
+      document.getElementById('modalStatus').textContent = 'ERROR';
+      document.getElementById('modalDesc').textContent = 'No se pudo enviar. Revisa la conexión e intenta de nuevo.';
+    }
+  }
 </script>
 </body>
 </html>
