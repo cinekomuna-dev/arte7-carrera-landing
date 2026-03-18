@@ -97,6 +97,12 @@ export default function DashboardPage() {
     loadLeads();
   }
 
+  async function deleteLead(id: number) {
+    if (!confirm('¿Estás seguro de eliminar este lead?')) return;
+    await supabase.from('leads').delete().eq('id', id);
+    loadLeads();
+  }
+
   async function handleLogout() {
     await supabase.auth.signOut();
     window.location.href = '/login';
@@ -210,7 +216,7 @@ export default function DashboardPage() {
       {/* LEADS GRID */}
       <div className="dash-grid">
         {paginated.map((lead) => (
-          <LeadCard key={lead.id} lead={lead} onUpdate={updateLead} />
+          <LeadCard key={lead.id} lead={lead} onUpdate={updateLead} onDelete={deleteLead} />
         ))}
         {filtered.length === 0 && (
           <div className="dash-empty">No hay leads con estos filtros.</div>
@@ -250,7 +256,7 @@ export default function DashboardPage() {
 }
 
 /* ──────────────── LEAD CARD ──────────────── */
-function LeadCard({ lead, onUpdate }: { lead: Lead; onUpdate: (id: number, u: Partial<Lead>) => void }) {
+function LeadCard({ lead, onUpdate, onDelete }: { lead: Lead; onUpdate: (id: number, u: Partial<Lead>) => void; onDelete: (id: number) => void }) {
   const [editingNota, setEditingNota] = useState(false);
   const [nota, setNota] = useState(lead.notas || '');
 
@@ -324,6 +330,9 @@ function LeadCard({ lead, onUpdate }: { lead: Lead; onUpdate: (id: number, u: Pa
         <a href={`mailto:${lead.email}`} className="lcard-mail">
           Email →
         </a>
+        <button className="lcard-delete" onClick={() => onDelete(lead.id)} title="Eliminar lead">
+          ✕
+        </button>
       </div>
     </div>
   );

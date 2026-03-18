@@ -1522,6 +1522,18 @@ footer {
 .lcard-wa { border-color: #25D366; color: #25D366; }
 .lcard-wa:hover { background: #25D366; color: var(--black); }
 .lcard-mail:hover { background: var(--cream); color: var(--black); }
+.lcard-delete {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  background: transparent;
+  color: #FF492F;
+  border: 1px solid #FF492F;
+  padding: 6px 10px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.2s;
+}
+.lcard-delete:hover { background: #FF492F; color: var(--black); }
 
 /* Dashboard responsive */
 @media (max-width: 700px) {
