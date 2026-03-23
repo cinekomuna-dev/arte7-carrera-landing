@@ -7,6 +7,44 @@ import { Lead, LeadEstado, ESTADO_LABELS, ESTADO_COLORS, INTERES_OPTIONS } from 
 const ESTADOS: LeadEstado[] = ['nuevo', 'contactado', 'en_seguimiento', 'caliente', 'inscrito', 'perdido'];
 const PAGE_SIZE = 20;
 
+// ── Templates de mensajes ────────────────────────────────────────────────────
+const WA_TEMPLATES: { label: string; msg: (l: Lead) => string }[] = [
+  {
+    label: 'Primer contacto',
+    msg: (l) => `Hola ${l.nombre}, soy Cary de Arte7 Escuela de Cine. Vi que te interesa ${l.interes}. ¿Te gustaría agendar una charla informativa?`,
+  },
+  {
+    label: 'Seguimiento',
+    msg: (l) => `Hola ${l.nombre}, te escribo de Arte7. ¿Pudiste revisar la información sobre ${l.interes}? Estoy para resolver cualquier duda.`,
+  },
+  {
+    label: 'Charla informativa',
+    msg: (l) => `Hola ${l.nombre}, te invitamos a nuestra próxima charla informativa sobre ${l.interes} en Arte7. ¿Te gustaría asistir?`,
+  },
+  {
+    label: 'Último aviso',
+    msg: (l) => `Hola ${l.nombre}, quedan pocos lugares para ${l.interes} en Arte7. ¿Quieres que te aparte un lugar? Inscripciones abiertas.`,
+  },
+];
+
+const EMAIL_TEMPLATES: { label: string; subject: (l: Lead) => string; body: (l: Lead) => string }[] = [
+  {
+    label: 'Bienvenida',
+    subject: (l) => `Bienvenido a Arte7 - ${l.interes}`,
+    body: (l) => `Hola ${l.nombre},\n\nGracias por tu interés en ${l.interes} en Arte7 Escuela de Cine.\n\nMe encantaría platicar contigo sobre el programa. ¿Tienes disponibilidad esta semana para una llamada o videollamada?\n\nQuedo al pendiente.\n\nSaludos,\nCary\nArte7 Escuela de Cine`,
+  },
+  {
+    label: 'Charla informativa',
+    subject: (l) => `Invitación a Charla Informativa - Arte7`,
+    body: (l) => `Hola ${l.nombre},\n\nTe invitamos a nuestra próxima charla informativa sobre ${l.interes}.\n\nEs sin costo y sin compromiso. Podrás conocer el plan de estudios, las instalaciones y resolver todas tus dudas.\n\n¿Te gustaría que te aparte un lugar?\n\nSaludos,\nCary\nArte7 Escuela de Cine`,
+  },
+  {
+    label: 'Seguimiento',
+    subject: (l) => `¿Sigues interesado en ${l.interes}? - Arte7`,
+    body: (l) => `Hola ${l.nombre},\n\n¿Pudiste revisar la información que te enviamos sobre ${l.interes}?\n\nEstoy para resolver cualquier duda que tengas. También podemos agendar una visita a nuestras instalaciones en Coyoacán.\n\nQuedo al pendiente.\n\nSaludos,\nCary\nArte7 Escuela de Cine`,
+  },
+];
+
 function scoreColor(score: number) {
   if (score >= 61) return '#2ECC71';
   if (score >= 31) return '#EE9628';
@@ -24,7 +62,7 @@ function timeAgo(dateStr: string) {
 }
 
 // ── Exportar a CSV ─────────────────────────────────────────────────────────
-function exportToCSV(leads: Lead[]) {
+function exportToCSV(leads: Lead[], label?: string) {
   const headers = ['ID', 'Nombre', 'Email', 'Teléfono', 'Interés', 'Score', 'Estado', 'Notas', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'Fecha'];
   const rows = leads.map((l) => [
     l.id,
@@ -46,7 +84,8 @@ function exportToCSV(leads: Lead[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `arte7-leads-${new Date().toISOString().split('T')[0]}.csv`;
+  const suffix = label ? `-${label}` : '';
+  a.download = `arte7-leads${suffix}-${new Date().toISOString().split('T')[0]}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -59,6 +98,10 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState('');
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [showBulk, setShowBulk] = useState(false);
+  const [bulkTemplate, setBulkTemplate] = useState(0);
+  const [bulkType, setBulkType] = useState<'whatsapp' | 'email'>('whatsapp');
 
   const supabase = createClient();
 
@@ -92,6 +135,9 @@ export default function DashboardPage() {
   // Resetear página al cambiar filtros
   useEffect(() => { setPage(1); }, [filter, interesFilter, search]);
 
+  // Limpiar selección al cambiar filtros
+  useEffect(() => { setSelected(new Set()); }, [filter, interesFilter, search]);
+
   async function updateLead(id: number, updates: Partial<Lead>) {
     await supabase.from('leads').update(updates).eq('id', id);
     loadLeads();
@@ -106,6 +152,58 @@ export default function DashboardPage() {
   async function handleLogout() {
     await supabase.auth.signOut();
     window.location.href = '/login';
+  }
+
+  function toggleSelect(id: number) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function selectAll() {
+    if (selected.size === filtered.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filtered.map((l) => l.id)));
+    }
+  }
+
+  function getSelectedLeads() {
+    return leads.filter((l) => selected.has(l.id));
+  }
+
+  function handleBulkWhatsApp() {
+    const sel = getSelectedLeads().filter((l) => l.telefono);
+    if (sel.length === 0) { alert('Ningún lead seleccionado tiene teléfono.'); return; }
+    const template = WA_TEMPLATES[bulkTemplate];
+    // Open each in a new tab (browsers may block after ~3, but it's the best we can do client-side)
+    sel.forEach((l, i) => {
+      const msg = template.msg(l);
+      const url = `https://wa.me/${l.telefono!.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
+      setTimeout(() => window.open(url, '_blank'), i * 500);
+    });
+  }
+
+  function handleBulkEmail() {
+    const sel = getSelectedLeads();
+    if (sel.length === 0) { alert('No hay leads seleccionados.'); return; }
+    const template = EMAIL_TEMPLATES[bulkTemplate];
+    if (sel.length <= 10) {
+      // Open mailto with BCC for small batches
+      const emails = sel.map((l) => l.email).join(',');
+      const subject = encodeURIComponent(template.subject(sel[0]));
+      const body = encodeURIComponent(template.body(sel[0]));
+      window.open(`mailto:${emails}?subject=${subject}&body=${body}`, '_blank');
+    } else {
+      // For large batches, copy emails to clipboard
+      const emails = sel.map((l) => l.email).join(', ');
+      navigator.clipboard.writeText(emails).then(() => {
+        alert(`${sel.length} emails copiados al portapapeles. Pégalos en tu cliente de email.`);
+      });
+    }
   }
 
   // Leads filtrados
@@ -200,12 +298,94 @@ export default function DashboardPage() {
         )}
         <button
           className="dash-export"
-          onClick={() => exportToCSV(filtered)}
+          onClick={() => exportToCSV(filtered, filter !== 'todos' ? filter : undefined)}
           title={`Exportar ${filtered.length} leads a CSV`}
         >
-          ↓ Exportar CSV
+          ↓ Exportar CSV ({filtered.length})
         </button>
       </div>
+
+      {/* SELECT ALL + BULK ACTIONS BAR */}
+      <div className="dash-bulk-bar">
+        <label className="dash-select-all" onClick={selectAll} style={{ cursor: 'pointer' }}>
+          <span className={`dash-checkbox ${selected.size === filtered.length && filtered.length > 0 ? 'checked' : ''}`}>
+            {selected.size === filtered.length && filtered.length > 0 ? '✓' : ''}
+          </span>
+          {selected.size > 0 ? `${selected.size} seleccionado${selected.size > 1 ? 's' : ''}` : 'Seleccionar todos'}
+        </label>
+
+        {selected.size > 0 && (
+          <div className="dash-bulk-actions">
+            <button className="dash-bulk-btn dash-bulk-wa" onClick={() => { setBulkType('whatsapp'); setShowBulk(true); }}>
+              WhatsApp masivo ({selected.size})
+            </button>
+            <button className="dash-bulk-btn dash-bulk-email" onClick={() => { setBulkType('email'); setShowBulk(true); }}>
+              Email masivo ({selected.size})
+            </button>
+            <button
+              className="dash-bulk-btn dash-bulk-csv"
+              onClick={() => exportToCSV(getSelectedLeads(), 'seleccion')}
+            >
+              ↓ CSV seleccionados ({selected.size})
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* BULK MODAL */}
+      {showBulk && (
+        <div className="dash-modal-overlay" onClick={() => setShowBulk(false)}>
+          <div className="dash-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="dash-modal-header">
+              <h3>{bulkType === 'whatsapp' ? 'WhatsApp Masivo' : 'Email Masivo'}</h3>
+              <button className="dash-modal-close" onClick={() => setShowBulk(false)}>✕</button>
+            </div>
+            <p className="dash-modal-count">
+              {selected.size} lead{selected.size > 1 ? 's' : ''} seleccionado{selected.size > 1 ? 's' : ''}
+              {bulkType === 'whatsapp' && ` (${getSelectedLeads().filter(l => l.telefono).length} con teléfono)`}
+            </p>
+            <div className="dash-modal-templates">
+              <label className="dash-modal-label">Seleccionar template:</label>
+              {bulkType === 'whatsapp'
+                ? WA_TEMPLATES.map((t, i) => (
+                    <div
+                      key={i}
+                      className={`dash-template ${bulkTemplate === i ? 'active' : ''}`}
+                      onClick={() => setBulkTemplate(i)}
+                    >
+                      <strong>{t.label}</strong>
+                      <p>{t.msg({ nombre: 'Juan', interes: 'Carrera CDMX' } as Lead)}</p>
+                    </div>
+                  ))
+                : EMAIL_TEMPLATES.map((t, i) => (
+                    <div
+                      key={i}
+                      className={`dash-template ${bulkTemplate === i ? 'active' : ''}`}
+                      onClick={() => setBulkTemplate(i)}
+                    >
+                      <strong>{t.label}</strong>
+                      <p>Asunto: {t.subject({ interes: 'Carrera CDMX' } as Lead)}</p>
+                      <p style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: 4 }}>{t.body({ nombre: 'Juan', interes: 'Carrera CDMX' } as Lead).substring(0, 100)}...</p>
+                    </div>
+                  ))
+              }
+            </div>
+            <div className="dash-modal-footer">
+              <button
+                className="dash-modal-send"
+                onClick={() => {
+                  if (bulkType === 'whatsapp') handleBulkWhatsApp();
+                  else handleBulkEmail();
+                  setShowBulk(false);
+                }}
+              >
+                {bulkType === 'whatsapp' ? `Abrir ${getSelectedLeads().filter(l => l.telefono).length} WhatsApps` : `Enviar a ${selected.size} emails`}
+              </button>
+              <button className="dash-modal-cancel" onClick={() => setShowBulk(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* RESULTS COUNT */}
       <p className="dash-count">
@@ -216,7 +396,14 @@ export default function DashboardPage() {
       {/* LEADS GRID */}
       <div className="dash-grid">
         {paginated.map((lead) => (
-          <LeadCard key={lead.id} lead={lead} onUpdate={updateLead} onDelete={deleteLead} />
+          <LeadCard
+            key={lead.id}
+            lead={lead}
+            onUpdate={updateLead}
+            onDelete={deleteLead}
+            selected={selected.has(lead.id)}
+            onToggleSelect={toggleSelect}
+          />
         ))}
         {filtered.length === 0 && (
           <div className="dash-empty">No hay leads con estos filtros.</div>
@@ -256,7 +443,13 @@ export default function DashboardPage() {
 }
 
 /* ──────────────── LEAD CARD ──────────────── */
-function LeadCard({ lead, onUpdate, onDelete }: { lead: Lead; onUpdate: (id: number, u: Partial<Lead>) => void; onDelete: (id: number) => void }) {
+function LeadCard({ lead, onUpdate, onDelete, selected, onToggleSelect }: {
+  lead: Lead;
+  onUpdate: (id: number, u: Partial<Lead>) => void;
+  onDelete: (id: number) => void;
+  selected: boolean;
+  onToggleSelect: (id: number) => void;
+}) {
   const [editingNota, setEditingNota] = useState(false);
   const [nota, setNota] = useState(lead.notas || '');
 
@@ -270,7 +463,12 @@ function LeadCard({ lead, onUpdate, onDelete }: { lead: Lead; onUpdate: (id: num
     : null;
 
   return (
-    <div className="lcard">
+    <div className={`lcard ${selected ? 'lcard-selected' : ''}`}>
+      <div className="lcard-select" onClick={() => onToggleSelect(lead.id)}>
+        <span className={`dash-checkbox ${selected ? 'checked' : ''}`}>
+          {selected ? '✓' : ''}
+        </span>
+      </div>
       <div className="lcard-header">
         <div>
           <h3 className="lcard-name">{lead.nombre}</h3>
