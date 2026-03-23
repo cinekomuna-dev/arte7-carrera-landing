@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrategia Digital Arte7 — Abril-Agosto 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #1A1A1A;
+  --red: #FF492F;
+  --teal: #038B96;
+  --orange: #EE9628;
+  --darkred: #9D2F20;
+  --cream: #FDF3E0;
+  --gray: #2E2E2E;
+  --gray2: #3D3D3D;
+  --green: #2ECC71;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--black);
+  color: var(--cream);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--black);
+  border-bottom: 1px solid var(--gray2);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  padding: 12px 20px;
+  border-right: 1px solid var(--gray2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  opacity: 0.5;
+  text-decoration: none;
+  padding: 14px 14px;
+  white-space: nowrap;
+  border-right: 1px solid var(--gray2);
+  transition: opacity 0.2s, background 0.2s;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.nav a:hover {
+  opacity: 1;
+  background: var(--gray);
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 100px 40px 80px;
+  border-bottom: 1px solid var(--gray2);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section:first-of-type { padding-top: 120px; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 0.05em;
+  color: var(--cream);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.section-subtitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: var(--cream);
+  opacity: 0.6;
+  margin-bottom: 40px;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 120px 40px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--gray2);
+}
+
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  margin-bottom: 24px;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.hero-title span { color: var(--red); }
+
+.hero-date {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  letter-spacing: 0.05em;
+  color: var(--cream);
+  opacity: 0.4;
+  margin-bottom: 32px;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border: 1px solid var(--gray2);
+  color: var(--cream);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.hero-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--cream);
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+  line-height: 2;
+}
+
+.hero-meta strong {
+  color: var(--cream);
+  opacity: 0.7;
+}
+
+/* ── TABLES ── */
+.table-wrap { overflow-x: auto; margin: 24px 0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+}
+
+thead th {
+  background: var(--gray);
+  color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  text-align: left;
+  border: 1px solid var(--gray2);
+  font-weight: 500;
+}
+
+thead.teal-header th {
+  background: var(--teal);
+  color: var(--cream);
+  border-color: var(--teal);
+}
+
+tbody td {
+  padding: 10px 16px;
+  border: 1px solid var(--gray2);
+  color: var(--cream);
+  opacity: 0.85;
+}
+
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+td.total-row, th.total-row {
+  font-weight: 700;
+  color: var(--cream);
+  opacity: 1;
+}
+
+td.highlight {
+  color: var(--green);
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* ── BADGES ── */
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.badge-live { background: var(--green); color: var(--black); }
+.badge-pendiente { background: var(--orange); color: var(--black); }
+.badge-proceso { background: var(--teal); color: var(--cream); }
+.badge-decisivo { background: var(--red); color: var(--cream); }
+.badge-recomendado { background: var(--green); color: var(--black); font-size: 0.7rem; padding: 6px 14px; }
+
+/* ── CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.card {
+  border: 1px solid var(--gray2);
+  padding: 24px;
+  background: var(--gray);
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: var(--teal); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+.card-body {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  line-height: 1.7;
+}
+
+.card-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--teal);
+  background: var(--black);
+  padding: 2px 6px;
+}
+
+/* ── SUBSECTION ── */
+.subsection {
+  margin: 40px 0;
+}
+
+.subsection-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--cream);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gray2);
+}
+
+.subsection-title .badge { margin-left: 12px; vertical-align: middle; }
+
+/* ── LISTS ── */
+.task-list {
+  list-style: none;
+  margin: 16px 0;
+}
+
+.task-list li {
+  font-size: 0.9rem;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  opacity: 0.8;
+}
+
+.task-list li::before {
+  content: '→';
+  color: var(--teal);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.bullet-list {
+  list-style: none;
+  margin: 16px 0;
+}
+
+.bullet-list li {
+  font-size: 0.9rem;
+  padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  opacity: 0.8;
+}
+
+.bullet-list li::before {
+  content: '—';
+  color: var(--orange);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+/* ── SCENARIO BLOCKS ── */
+.scenario {
+  border: 1px solid var(--gray2);
+  padding: 32px;
+  margin: 32px 0;
+  background: var(--gray);
+}
+
+.scenario.recommended {
+  border-color: var(--green);
+  border-width: 2px;
+}
+
+.scenario-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.scenario-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+}
+
+.scenario-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.metric {
+  padding: 16px;
+  border: 1px solid var(--gray2);
+  background: var(--black);
+}
+
+.metric-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+.metric-value.green { color: var(--green); }
+
+.scenario-note {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 16px;
+  line-height: 1.7;
+}
+
+/* ── NOTE BOX ── */
+.note-box {
+  border-left: 3px solid var(--teal);
+  padding: 20px 24px;
+  margin: 24px 0;
+  background: var(--gray);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+.note-box strong { color: var(--orange); }
+
+/* ── FOOTER ── */
+.footer {
+  padding: 60px 40px;
+  text-align: center;
+  border-top: 1px solid var(--gray2);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  opacity: 0.3;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav { flex-wrap: nowrap; }
+  .nav-brand { padding: 10px 14px; font-size: 0.9rem; }
+  .nav a { padding: 10px 10px; font-size: 0.55rem; }
+  .hero { padding: 100px 20px 60px; min-height: auto; }
+  .section { padding: 60px 20px 50px; }
+  .cards { grid-template-columns: 1fr; }
+  .scenario { padding: 20px; }
+  .scenario-metrics { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 2.5rem; }
+  table { font-size: 0.75rem; }
+  thead th, tbody td { padding: 8px 10px; }
+}
+
+@media (max-width: 480px) {
+  .scenario-metrics { grid-template-columns: 1fr; }
+  .hero-tags { gap: 6px; }
+  .hero-tag { font-size: 0.55rem; padding: 4px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;z-index:9999;background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+  <span style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.1em;color:#FDF3E0;">ARTE 7 // ACCESO RESTRINGIDO</span>
+  <input id="gate-pass" type="password" placeholder="Contrase&ntilde;a..." autofocus
+    style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:14px 24px;background:#2E2E2E;border:1px solid #3D3D3D;color:#FDF3E0;width:280px;outline:none;text-align:center;letter-spacing:0.1em;"
+    onkeydown="if(event.key==='Enter')checkGate()" />
+  <button onclick="checkGate()"
+    style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:10px 24px;background:#FF492F;color:#FDF3E0;border:none;cursor:pointer;letter-spacing:0.1em;">ENTRAR</button>
+  <span id="gate-err" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#FF492F;opacity:0;transition:opacity 0.3s;">Contrase&ntilde;a incorrecta</span>
+</div>
+<script>
+(function(){if(localStorage.getItem('a7-estrategia-auth')==='1'){document.getElementById('gate').style.display='none';}})();
+function checkGate(){
+  if(document.getElementById('gate-pass').value==='arte7estrategia2026'){
+    document.getElementById('gate').style.display='none';
+    localStorage.setItem('a7-estrategia-auth','1');
+  } else {
+    document.getElementById('gate-err').style.opacity='1';
+    setTimeout(()=>{document.getElementById('gate-err').style.opacity='0';},2000);
+  }
+}
+</script>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">ARTE7 // ESTRATEGIA</div>
+  <a href="#portada">Portada</a>
+  <a href="#resumen">Resumen</a>
+  <a href="#estado">Estado Actual</a>
+  <a href="#pendientes">Pendientes</a>
+  <a href="#siguientes">Sig. Pasos</a>
+  <a href="#escenarios">Escenarios</a>
+  <a href="#necesito">Necesito</a>
+  <a href="#calendario">Calendario</a>
+  <a href="#historicos">Hist&oacute;ricos</a>
+</nav>
+
+<!-- 01 PORTADA / HERO -->
+<section class="hero" id="portada">
+  <div class="hero-label">// 01 &mdash; PORTADA</div>
+  <h1 class="hero-title">ESTRATEGIA DIGITAL<br><span>ARTE7</span></h1>
+  <div class="hero-date">Abril &mdash; Agosto 2026</div>
+  <div class="hero-tags">
+    <span class="hero-tag">Pendientes</span>
+    <span class="hero-tag">Siguientes Pasos</span>
+    <span class="hero-tag">Escenarios</span>
+    <span class="hero-tag">Presupuesto</span>
+  </div>
+  <div class="hero-meta">
+    <strong>Preparado por:</strong> Nino Cozzi &mdash; Dreams Matter<br>
+    <strong>Fecha:</strong> 23 de Marzo de 2026
+  </div>
+</section>
+
+<!-- 02 RESUMEN EJECUTIVO -->
+<section class="section" id="resumen">
+  <div class="section-label">// 02 &mdash; RESUMEN EJECUTIVO</div>
+  <h2 class="section-title">TRES ESCENARIOS, UN OBJETIVO</h2>
+  <p class="section-subtitle">Comparativa de inversi&oacute;n, leads e inscritos proyectados para Abril&ndash;Agosto 2026</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead class="teal-header">
+        <tr>
+          <th>M&eacute;trica</th>
+          <th>Conservador</th>
+          <th>Normal (Recomendado)</th>
+          <th>Optimista</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Inversi&oacute;n total (5 meses)</td>
+          <td>$38,500 MXN</td>
+          <td class="highlight">$52,500 MXN</td>
+          <td>$85,000 MXN</td>
+        </tr>
+        <tr>
+          <td>Leads proyectados</td>
+          <td>100&ndash;150</td>
+          <td class="highlight">200&ndash;280</td>
+          <td>350&ndash;500</td>
+        </tr>
+        <tr>
+          <td>Inscritos esperados</td>
+          <td>12&ndash;18</td>
+          <td class="highlight">20&ndash;30</td>
+          <td>35&ndash;50</td>
+        </tr>
+        <tr>
+          <td>ROI inscripciones</td>
+          <td>$1.1M&ndash;$1.7M</td>
+          <td class="highlight">$1.9M&ndash;$2.9M</td>
+          <td>$3.4M&ndash;$4.9M</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <strong>Nota:</strong> ROI basado en <strong>$9,900/mes &times; 42 meses</strong> de valor de vida por estudiante de Carrera = <strong>$415,800 por inscrito</strong>. Incluso 1 inscrito a $9,900/mes recupera la inversi&oacute;n en meses.
+  </div>
+
+  <p style="font-size:0.9rem;opacity:0.75;line-height:1.8;margin-top:24px;">
+    Se ha construido infraestructura digital completa para captaci&oacute;n de estudiantes: landing page con formulario y tracking UTM, dashboard CRM con scoring autom&aacute;tico, comunicaci&oacute;n masiva por WhatsApp y email con templates, y herramientas de exportaci&oacute;n. Todo funcionando en producci&oacute;n.
+  </p>
+</section>
+
+<!-- 03 ESTADO ACTUAL -->
+<section class="section" id="estado">
+  <div class="section-label">// 03 &mdash; ESTADO ACTUAL &mdash; LO QUE YA EST&Aacute; LIVE</div>
+  <h2 class="section-title">INFRAESTRUCTURA EN PRODUCCI&Oacute;N</h2>
+  <p class="section-subtitle">Todo construido, desplegado y funcionando</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Landing Page</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        <code>carrera.arte7.net</code><br><br>
+        Formulario con captura de UTMs, lead scoring autom&aacute;tico, redirecci&oacute;n a WhatsApp post-registro.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Dashboard CRM</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        <code>carrera.arte7.net/dashboard</code><br><br>
+        Visualizaci&oacute;n en tiempo real, filtros por estado/inter&eacute;s/b&uacute;squeda, estad&iacute;sticas.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Lead Scoring</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        Puntuaci&oacute;n autom&aacute;tica 0&ndash;100 basada en inter&eacute;s, tel&eacute;fono, fuente UTM.<br><br>
+        Colores: <span style="color:var(--red);">rojo (&lt;31)</span>, <span style="color:var(--orange);">naranja (31&ndash;60)</span>, <span style="color:var(--green);">verde (61+)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Comunicaci&oacute;n Masiva</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        WhatsApp y Email masivo con selecci&oacute;n m&uacute;ltiple.<br><br>
+        4 templates WhatsApp + 3 Email pre-configurados.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Gesti&oacute;n de Leads</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        Cambio de estado, notas, eliminaci&oacute;n, exportar CSV filtrado por categor&iacute;a.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Usuarios Activos</span>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="card-body">
+        <code>cary@arte7.net</code><br>
+        <code>coordinacion@arte7.net</code><br>
+        <code>coordinacionqro@arte7.net</code><br>
+        <code>ladxidua@arte7.net</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 PENDIENTES INMEDIATOS -->
+<section class="section" id="pendientes">
+  <div class="section-label">// 04 &mdash; PENDIENTES INMEDIATOS &mdash; ABRIL 2026</div>
+  <h2 class="section-title">ACCIONES PRIORITARIAS</h2>
+  <p class="section-subtitle">Lo que se necesita completar para arrancar campa&ntilde;as</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Tracking y Anal&iacute;tica <span class="badge badge-pendiente">PENDIENTE</span></h3>
+    <ul class="task-list">
+      <li>Integrar Pixel de Meta en landing (en proceso con Abril Villegas)</li>
+      <li>Configurar Google Analytics 4 y Google Tag Manager</li>
+      <li>Definir estrategia UTM con equipo de redes sociales</li>
+    </ul>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Landings Adicionales (4 total) <span class="badge badge-pendiente">PENDIENTE</span></h3>
+    <ul class="task-list">
+      <li>Landing Carrera CDMX <span class="badge badge-live" style="margin-left:8px;">LIVE</span> &mdash; ya existe: <code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);background:var(--black);padding:2px 6px;">carrera.arte7.net</code></li>
+      <li>Landing Carrera Quer&eacute;taro &mdash; por crear</li>
+      <li>Landing Diplomado CDMX &mdash; por crear</li>
+      <li>Landing Diplomado Quer&eacute;taro &mdash; por crear</li>
+      <li>Cada landing con formulario propio alimentando el dashboard</li>
+    </ul>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Automatizaci&oacute;n <span class="badge badge-pendiente">PENDIENTE</span></h3>
+    <ul class="task-list">
+      <li>Secuencias de seguimiento autom&aacute;tico por WhatsApp (D&iacute;a 0, 1, 3, 7, 14)</li>
+      <li>Email automation: bienvenida, seguimiento, charla informativa, &uacute;ltimo aviso</li>
+      <li>Evaluar reemplazo de sistema CRI actual (pendiente dato de cu&aacute;nto pagan)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 05 SIGUIENTES PASOS -->
+<section class="section" id="siguientes">
+  <div class="section-label">// 05 &mdash; SIGUIENTES PASOS &mdash; MAYO&ndash;JUNIO 2026</div>
+  <h2 class="section-title">ROADMAP DE CRECIMIENTO</h2>
+  <p class="section-subtitle">Optimizaci&oacute;n continua y escalamiento</p>
+
+  <ul class="bullet-list">
+    <li>Lanzar campa&ntilde;as de ads en Meta con UTM tracking y optimizaci&oacute;n por lead score</li>
+    <li>Optimizaci&oacute;n continua basada en datos del dashboard</li>
+    <li>Landings personalizadas por campa&ntilde;a y audiencia</li>
+    <li>Email automation sequences completas</li>
+    <li>Reportes mensuales de ROI: inversi&oacute;n vs inscritos, costo por lead</li>
+    <li>Remarketing a visitantes que no completaron formulario</li>
+    <li>A/B testing de copies, im&aacute;genes y CTAs</li>
+  </ul>
+</section>
+
+<!-- 06 ESCENARIOS DE INVERSIÓN -->
+<section class="section" id="escenarios">
+  <div class="section-label">// 06 &mdash; ESCENARIOS DE INVERSI&Oacute;N &mdash; ABRIL&ndash;AGOSTO 2026 (5 MESES)</div>
+  <h2 class="section-title">TRES CAMINOS, T&Uacute; DECIDES</h2>
+  <p class="section-subtitle">Pauta + herramientas + contenido. Sin honorarios Dreams Matter.</p>
+
+  <!-- ESCENARIO A -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-name">ESCENARIO A: CONSERVADOR</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Mensual</th>
+            <th>5 Meses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pauta Meta Ads</td>
+            <td>$5,000</td>
+            <td>$25,000</td>
+          </tr>
+          <tr>
+            <td>Herramientas (hosting, email, analytics)</td>
+            <td>$500</td>
+            <td>$2,500</td>
+          </tr>
+          <tr>
+            <td>Contenido y creativos</td>
+            <td>$2,200</td>
+            <td>$11,000</td>
+          </tr>
+          <tr>
+            <td class="total-row"><strong>TOTAL</strong></td>
+            <td class="total-row"><strong>$7,700</strong></td>
+            <td class="total-row"><strong>$38,500</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scenario-metrics">
+      <div class="metric">
+        <div class="metric-label">Leads Proyectados</div>
+        <div class="metric-value">100&ndash;150</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Inscritos Esperados</div>
+        <div class="metric-value">12&ndash;18</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ROI en Inscripciones</div>
+        <div class="metric-value green">$1.1M&ndash;$1.7M</div>
+      </div>
+    </div>
+
+    <p class="scenario-note">
+      Incluye: landing actual + dashboard + Meta Ads b&aacute;sico + 1 landing adicional.<br>
+      ROI basado en valor de vida: $9,900/mes &times; 42 meses = $415,800 por inscrito.
+    </p>
+  </div>
+
+  <!-- ESCENARIO B -->
+  <div class="scenario recommended">
+    <div class="scenario-header">
+      <span class="scenario-name">ESCENARIO B: NORMAL</span>
+      <span class="badge badge-recomendado">RECOMENDADO</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead class="teal-header">
+          <tr>
+            <th>Concepto</th>
+            <th>Mensual</th>
+            <th>5 Meses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pauta Meta + Google Ads</td>
+            <td>$7,000</td>
+            <td>$35,000</td>
+          </tr>
+          <tr>
+            <td>Herramientas (hosting, email, analytics, API)</td>
+            <td>$1,000</td>
+            <td>$5,000</td>
+          </tr>
+          <tr>
+            <td>Contenido y creativos</td>
+            <td>$2,500</td>
+            <td>$12,500</td>
+          </tr>
+          <tr>
+            <td class="total-row"><strong>TOTAL</strong></td>
+            <td class="total-row"><strong>$10,500</strong></td>
+            <td class="total-row"><strong>$52,500</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scenario-metrics">
+      <div class="metric">
+        <div class="metric-label">Leads Proyectados</div>
+        <div class="metric-value">200&ndash;280</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Inscritos Esperados</div>
+        <div class="metric-value">20&ndash;30</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ROI en Inscripciones</div>
+        <div class="metric-value green">$1.9M&ndash;$2.9M</div>
+      </div>
+    </div>
+
+    <p class="scenario-note">
+      Incluye todo lo anterior + Google Ads + 4 landings + automation + reportes mensuales.<br>
+      Reduce CAC de $700 a ~$350 por estudiante.
+    </p>
+  </div>
+
+  <!-- ESCENARIO C -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-name">ESCENARIO C: OPTIMISTA</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Mensual</th>
+            <th>5 Meses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pauta Meta + Google + TikTok</td>
+            <td>$12,000</td>
+            <td>$60,000</td>
+          </tr>
+          <tr>
+            <td>Herramientas + Claude API (IA)</td>
+            <td>$2,000</td>
+            <td>$10,000</td>
+          </tr>
+          <tr>
+            <td>Contenido, creativos y producci&oacute;n</td>
+            <td>$3,000</td>
+            <td>$15,000</td>
+          </tr>
+          <tr>
+            <td class="total-row"><strong>TOTAL</strong></td>
+            <td class="total-row"><strong>$17,000</strong></td>
+            <td class="total-row"><strong>$85,000</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scenario-metrics">
+      <div class="metric">
+        <div class="metric-label">Leads Proyectados</div>
+        <div class="metric-value">350&ndash;500</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Inscritos Esperados</div>
+        <div class="metric-value">35&ndash;50</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ROI en Inscripciones</div>
+        <div class="metric-value green">$3.4M&ndash;$4.9M</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ROAS Objetivo</div>
+        <div class="metric-value green">12x</div>
+      </div>
+    </div>
+
+    <p class="scenario-note">
+      Incluye todo lo anterior + TikTok + chatbot IA + automation avanzada + m&uacute;ltiples landings.
+    </p>
+  </div>
+</section>
+
+<!-- 07 QUÉ NECESITO DE ARTE7 -->
+<section class="section" id="necesito">
+  <div class="section-label">// 07 &mdash; QU&Eacute; NECESITO DE ARTE7</div>
+  <h2 class="section-title">ACCIONES REQUERIDAS DEL EQUIPO</h2>
+  <p class="section-subtitle">Items pendientes por parte de Arte7 para avanzar</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Acceso Meta Business</span>
+        <span class="badge badge-proceso">EN PROCESO</span>
+      </div>
+      <div class="card-body">
+        En proceso con Abril Villegas. Necesito Pixel ID para tracking de conversiones. Invitaci&oacute;n aceptada.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Google Analytics</span>
+        <span class="badge badge-pendiente">PENDIENTE</span>
+      </div>
+      <div class="card-body">
+        Si ya tienen cuenta de GA, necesito acceso como Editor. Si no, la creo.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Contenido Visual</span>
+        <span class="badge badge-pendiente">PENDIENTE</span>
+      </div>
+      <div class="card-body">
+        Fotos profesionales, videos de testimoniales de alumnos, material para redes y ads.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Oferta Acad&eacute;mica</span>
+        <span class="badge badge-pendiente">PENDIENTE</span>
+      </div>
+      <div class="card-body">
+        Informaci&oacute;n actualizada de precios, becas, fechas de inicio, programas.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Dato Sistema CRI</span>
+        <span class="badge badge-pendiente">PENDIENTE</span>
+      </div>
+      <div class="card-body">
+        Cu&aacute;nto pagan actualmente para evaluar alternativas.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Aprobaci&oacute;n de Escenario</span>
+        <span class="badge badge-decisivo">DECISIVO</span>
+      </div>
+      <div class="card-body">
+        Seleccionar escenario (A, B o C) para iniciar ejecuci&oacute;n en Abril.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 CALENDARIO PROPUESTO -->
+<section class="section" id="calendario">
+  <div class="section-label">// 08 &mdash; CALENDARIO PROPUESTO</div>
+  <h2 class="section-title">TIMELINE ABRIL&ndash;AGOSTO 2026</h2>
+  <p class="section-subtitle">Roadmap de ejecuci&oacute;n mes a mes</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead class="teal-header">
+        <tr>
+          <th>Periodo</th>
+          <th>Actividades Clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Abril Sem 1&ndash;2</strong></td>
+          <td>Pixel Meta + GA. Definir UTMs con redes. Primera campa&ntilde;a Meta Ads.</td>
+        </tr>
+        <tr>
+          <td><strong>Abril Sem 3&ndash;4</strong></td>
+          <td>Optimizaci&oacute;n campa&ntilde;as. Landings por carrera y diplomado. Automation WhatsApp.</td>
+        </tr>
+        <tr>
+          <td><strong>Mayo</strong></td>
+          <td>Campa&ntilde;as multi-canal. Email automation. Primer reporte mensual ROI.</td>
+        </tr>
+        <tr>
+          <td><strong>Junio</strong></td>
+          <td>Charlas informativas con landing dedicada. Remarketing. Optimizaci&oacute;n scoring.</td>
+        </tr>
+        <tr>
+          <td><strong>Julio</strong></td>
+          <td>Push de cierre: urgencia, early bird, becas. Campa&ntilde;as &uacute;ltimo aviso.</td>
+        </tr>
+        <tr>
+          <td><strong>Agosto</strong></td>
+          <td>Cierre inscripciones. M&aacute;ximo push publicitario. Reporte final.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection" style="margin-top:48px;">
+    <h3 class="subsection-title">Horarios de Trabajo (Abril)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Persona</th>
+            <th>Horario</th>
+            <th>Contacto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nino (Dreams Matter)</td>
+            <td>L&ndash;V 9:00am &ndash; 2:00pm (Abril)</td>
+            <td><code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);">nino@dreamsmatter.ai</code></td>
+          </tr>
+          <tr>
+            <td>Cary (Admisiones)</td>
+            <td>L&ndash;J 9:30am&ndash;6pm / V&ndash;S 10am&ndash;2pm</td>
+            <td><code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);">cary@arte7.net</code></td>
+          </tr>
+          <tr>
+            <td>Urgencias</td>
+            <td>Cualquier hora</td>
+            <td><code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);">551903269</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 09 DATOS HISTÓRICOS -->
+<section class="section" id="historicos">
+  <div class="section-label">// 09 &mdash; DATOS HIST&Oacute;RICOS DE REFERENCIA</div>
+  <h2 class="section-title">BENCHMARK: SEMESTRE 2025-2</h2>
+  <p class="section-subtitle">Datos reales para proyecciones y objetivos de mejora</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead class="teal-header">
+        <tr>
+          <th>M&eacute;trica</th>
+          <th>Valor Hist&oacute;rico (Sem 2025-2)</th>
+          <th>Objetivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gasto total Meta Ads</td>
+          <td>$40,063 MXN</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Conversaciones generadas</td>
+          <td>1,926</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>Inscritos confirmados (todos los programas)</td>
+          <td>57</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr>
+          <td>CAC promedio</td>
+          <td>$700 MXN</td>
+          <td class="highlight">$350 MXN</td>
+        </tr>
+        <tr>
+          <td>CAC Carrera CDMX</td>
+          <td>$1,120 MXN</td>
+          <td class="highlight">$500 MXN</td>
+        </tr>
+        <tr>
+          <td>CAC Carrera QRO</td>
+          <td>$2,567 MXN</td>
+          <td class="highlight">$800 MXN</td>
+        </tr>
+        <tr>
+          <td>CAC Diplomado CDMX</td>
+          <td>$588 MXN</td>
+          <td class="highlight">$300 MXN</td>
+        </tr>
+        <tr>
+          <td>CAC Diplomado QRO</td>
+          <td>$362 MXN</td>
+          <td class="highlight">$250 MXN</td>
+        </tr>
+        <tr>
+          <td>ROAS</td>
+          <td>2.8x</td>
+          <td class="highlight">8&ndash;12x</td>
+        </tr>
+        <tr>
+          <td>Tasa de conversi&oacute;n</td>
+          <td>1.4%</td>
+          <td class="highlight">5%</td>
+        </tr>
+        <tr>
+          <td>Costo por conversaci&oacute;n</td>
+          <td>$21 MXN promedio</td>
+          <td class="highlight">$15 MXN</td>
+        </tr>
+        <tr>
+          <td>Alcance total</td>
+          <td>620,296 personas</td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection" style="margin-top:48px;">
+    <h3 class="subsection-title">Desglose por Programa (Hist&oacute;rico)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Programa</th>
+            <th>Gasto Meta</th>
+            <th>Conversaciones</th>
+            <th>Inscritos</th>
+            <th>CAC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Carrera CDMX</td>
+            <td>$7,844</td>
+            <td>438</td>
+            <td>7</td>
+            <td>$1,120</td>
+          </tr>
+          <tr>
+            <td>Carrera QRO</td>
+            <td>$15,406</td>
+            <td>480</td>
+            <td>6</td>
+            <td>$2,567</td>
+          </tr>
+          <tr>
+            <td>General</td>
+            <td>$6,230</td>
+            <td>227</td>
+            <td>13</td>
+            <td>$479</td>
+          </tr>
+          <tr>
+            <td>Diplomado QRO</td>
+            <td>$3,984</td>
+            <td>193</td>
+            <td>11</td>
+            <td>$362</td>
+          </tr>
+          <tr>
+            <td>Diplomado CDMX</td>
+            <td>$5,879</td>
+            <td>228</td>
+            <td>10</td>
+            <td>$588</td>
+          </tr>
+          <tr>
+            <td>Masterclass</td>
+            <td>$240</td>
+            <td>360 clicks</td>
+            <td>13</td>
+            <td>$18</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-line">ARTE7 ESCUELA DE CINE &nbsp;|&nbsp; DREAMS MATTER &nbsp;|&nbsp; Documento Confidencial</div>
+  <div class="footer-line">carrera.arte7.net &nbsp;|&nbsp; nino@dreamsmatter.ai &nbsp;|&nbsp; Marzo 2026</div>
+</footer>
+
+</body>
+</html>
