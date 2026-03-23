@@ -33,4 +33,4 @@ export const ESTADO_COLORS: Record<LeadEstado, string> = {
   perdido: '#666',
 };
 
-export const INTERES_OPTIONS = ['Carrera CDMX', 'Carrera Querétaro', 'Cursos Online', 'Actuación'] as const;
+export const INTERES_OPTIONS = ['Carrera CDMX', 'Carrera Querétaro', 'Diplomado CDMX', 'Diplomado QRO', 'Cursos Online', 'Actuación'] as const;

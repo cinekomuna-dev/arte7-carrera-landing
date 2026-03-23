@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Home() {
+export default function DiplomadoCDMXPage() {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     telefono: '',
-    interes: '',
+    interes: 'Diplomado CDMX',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -42,12 +42,12 @@ export default function Home() {
       if (!res.ok) throw new Error('Error al enviar');
 
       setStatus('success');
-      setFormData({ nombre: '', email: '', telefono: '', interes: '' });
+      setFormData({ nombre: '', email: '', telefono: '', interes: 'Diplomado CDMX' });
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
         window.location.href = `https://wa.me/525527323335?text=${encodeURIComponent(
-          `Hola Arte7, soy ${formData.nombre}. Acabo de registrar mi interés en ${formData.interes}. Quiero más información.`
+          `Hola Arte7, soy ${formData.nombre}. Acabo de registrar mi interés en el Diplomado Intensivo de Cine CDMX. Quiero más información.`
         )}`;
       }, 2500);
     } catch {
@@ -62,7 +62,7 @@ export default function Home() {
       <nav>
         <div className="nav-left">
           <a href="https://arte7.net" className="nav-logo"><img src="/logo-blanco.png" alt="Arte7" className="nav-logo-img" /></a>
-          <span className="nav-tag">// Escuela de Cine · CDMX</span>
+          <span className="nav-tag">// Escuela de Cine &middot; CDMX</span>
         </div>
         <div className="nav-right">
           <a href="#curriculum" className="nav-link">Plan de estudios</a>
@@ -80,7 +80,7 @@ export default function Home() {
           </div>
 
           <h1 className="hero-h1">
-            CARRERA
+            DIPLOMADO INTENSIVO
             <span className="accent">DE CINE</span>
           </h1>
 
@@ -88,12 +88,8 @@ export default function Home() {
 
           <div className="hero-stats">
             <div className="hstat">
-              <span className="hstat-n">03</span>
-              <span className="hstat-l">Años de formación</span>
-            </div>
-            <div className="hstat">
-              <span className="hstat-n">07</span>
-              <span className="hstat-l">Semestres</span>
+              <span className="hstat-n">06</span>
+              <span className="hstat-l">Meses de formación</span>
             </div>
             <div className="hstat">
               <span className="hstat-n">LUN–VIE</span>
@@ -118,7 +114,7 @@ export default function Home() {
           <div className="hero-ghost" aria-hidden="true">A7</div>
 
           <div className="hero-badge" aria-hidden="true">
-            <span className="hbadge-n">AGO</span>
+            <span className="hbadge-n">MAY</span>
             <span className="hbadge-l">Inicio<br />2026</span>
           </div>
         </div>
@@ -127,23 +123,23 @@ export default function Home() {
       {/* TICKER */}
       <div className="ticker" aria-hidden="true">
         <div className="ticker-track">
-          <span className="ti">CARRERA DE CINE</span><span className="ti ti-sep">///</span>
+          <span className="ti">DIPLOMADO INTENSIVO</span><span className="ti ti-sep">///</span>
           <span className="ti">CDMX · COYOACÁN</span><span className="ti ti-sep">///</span>
-          <span className="ti">3 AÑOS · 7 SEMESTRES</span><span className="ti ti-sep">///</span>
-          <span className="ti">ÓPERA PRIMA FINANCIADA</span><span className="ti ti-sep">///</span>
+          <span className="ti">6 MESES</span><span className="ti ti-sep">///</span>
+          <span className="ti">CORTOMETRAJE FINAL</span><span className="ti ti-sep">///</span>
           <span className="ti">CANON OFFICIAL PARTNER</span><span className="ti ti-sep">///</span>
           <span className="ti">DESDE 1999</span><span className="ti ti-sep">///</span>
           <span className="ti">HACEMOS EL CINE POSIBLE</span><span className="ti ti-sep">///</span>
-          <span className="ti">INICIO AGOSTO 2026</span><span className="ti ti-sep">///</span>
+          <span className="ti">INICIO MAYO 2026</span><span className="ti ti-sep">///</span>
           {/* duplicate for seamless loop */}
-          <span className="ti">CARRERA DE CINE</span><span className="ti ti-sep">///</span>
+          <span className="ti">DIPLOMADO INTENSIVO</span><span className="ti ti-sep">///</span>
           <span className="ti">CDMX · COYOACÁN</span><span className="ti ti-sep">///</span>
-          <span className="ti">3 AÑOS · 7 SEMESTRES</span><span className="ti ti-sep">///</span>
-          <span className="ti">ÓPERA PRIMA FINANCIADA</span><span className="ti ti-sep">///</span>
+          <span className="ti">6 MESES</span><span className="ti ti-sep">///</span>
+          <span className="ti">CORTOMETRAJE FINAL</span><span className="ti ti-sep">///</span>
           <span className="ti">CANON OFFICIAL PARTNER</span><span className="ti ti-sep">///</span>
           <span className="ti">DESDE 1999</span><span className="ti ti-sep">///</span>
           <span className="ti">HACEMOS EL CINE POSIBLE</span><span className="ti ti-sep">///</span>
-          <span className="ti">INICIO AGOSTO 2026</span><span className="ti ti-sep">///</span>
+          <span className="ti">INICIO MAYO 2026</span><span className="ti ti-sep">///</span>
         </div>
       </div>
 
@@ -151,12 +147,12 @@ export default function Home() {
       <section className="manifesto">
         <div className="label">// 001 — Filosofía del programa</div>
         <blockquote className="manifesto-quote">
-          DEL CONCEPTO A LA PANTALLA GRANDE. TEORÍA, PRÁCTICA Y REFLEXIÓN PARA CINEASTAS REALES.
+          FORMACIÓN INTENSIVA EN 6 MESES. TEORÍA, PRÁCTICA Y REALIZACIÓN CINEMATOGRÁFICA PARA QUIENES QUIEREN ENTRAR AL MUNDO DEL CINE SIN COMPROMETER AÑOS.
         </blockquote>
 
         <div className="manifesto-body">
           <p className="manifesto-p">
-            Arte7 te da las herramientas técnicas y el pensamiento autoral para convertirte en un cineasta profesional. No sólo aprendes cine — <strong>haces cine</strong>, desde el primer día. Con un enfoque teórico-práctico continuo que va de la idea a la realización, el programa construye cineastas con voz propia.
+            El Diplomado Intensivo de Cine de Arte7 condensa lo esencial de la formación cinematográfica en 6 meses. De lunes a viernes, 4 horas diarias, aprendes haciendo — desde el lenguaje visual hasta la post-producción. No es un curso introductorio. Es una <strong>inmersión real en el oficio del cine</strong>.
           </p>
 
           <div className="manifesto-facts">
@@ -164,21 +160,21 @@ export default function Home() {
               <span className="mfact-icon">01</span>
               <div className="mfact-text">
                 <strong>Formación Intensiva</strong>
-                4 horas diarias, lunes a viernes. Presencial. Sin atajos.
+                6 meses, lunes a viernes. Presencial. Sin atajos.
               </div>
             </div>
             <div className="mfact">
               <span className="mfact-icon">02</span>
               <div className="mfact-text">
                 <strong>Práctica desde el Día 1</strong>
-                Cada semestre termina con una pieza cinematográfica real.
+                Cada módulo termina con una pieza cinematográfica real.
               </div>
             </div>
             <div className="mfact">
               <span className="mfact-icon">03</span>
               <div className="mfact-text">
-                <strong>Ópera Prima Financiada</strong>
-                Tu tesis es un largometraje. Arte7 Producciones lo financia.
+                <strong>Proyecto Final de Cortometraje</strong>
+                Tu proyecto final es un cortometraje terminado listo para festivales.
               </div>
             </div>
             <div className="mfact">
@@ -199,90 +195,52 @@ export default function Home() {
         <div className="cur-header">
           <div>
             <div className="label">// 002 — Plan de estudios</div>
-            <h2 className="cur-title">7 SEM.<br /><em>UN CINEASTA.</em></h2>
+            <h2 className="cur-title">3 MÓD.<br /><em>UN CORTOMETRAJE.</em></h2>
           </div>
-          <p className="cur-note">Modalidad presencial<br />Inicio: Agosto 2026<br />Lunes — Viernes 10–14h</p>
+          <p className="cur-note">Modalidad presencial<br />Inicio: 19 de Mayo 2026<br />Lunes — Viernes 10–14h</p>
         </div>
 
         <div className="sem-grid">
           {[
-            { n: '01', tag: 'Semestre 01', title: 'BASES DEL LENGUAJE', desc: 'Fundamentos de la imagen en movimiento. Historia del cine como herramienta. Aprendes a leer y construir una imagen con intención.', del: 'Cortometraje de ficción sin diálogo + ensayo de historia del cine' },
-            { n: '02', tag: 'Semestre 02', title: 'VOZ AUTORAL', desc: 'Desarrolla tu punto de vista como cineasta. El experimento como método de aprendizaje. Tu cine, no el de alguien más.', del: 'Cortometraje experimental + ensayo de análisis cinematográfico' },
-            { n: '03', tag: 'Semestre 03', title: 'CINE DE NO FICCIÓN', desc: 'La realidad como material cinematográfico. El documental como práctica política y estética a la vez.', del: 'Cortometraje documental + carpeta de producción' },
-            { n: '04', tag: 'Semestre 04', title: 'PRODUCCIÓN INDEPENDIENTE', desc: 'Modelos reales de producción y desarrollo de largometraje. Cómo funciona la industria sin ilusiones.', del: 'Ficción menor a 30 min + argumento de largometraje' },
-            { n: '05', tag: 'Semestre 05', title: 'ESCRITURA DE LARGO', desc: 'Guion de tu ópera prima. Estructura, personajes, mundo. Construyes la película antes de filmarla.', del: 'Primera versión del tratamiento de ficción o documental' },
-            { n: '06', tag: 'Semestre 06', title: 'RODAJE DE TESIS', desc: 'Cámaras, locaciones, equipo técnico. Tu largometraje empieza a existir en la realidad.', del: 'Corte rough de la ópera prima' },
-            { n: '07', tag: 'Semestre 07', title: 'DISTRIBUCIÓN Y EXHIBICIÓN', desc: 'Post-producción, festivales, circuito de exhibición. Tu película llega a los ojos del mundo.', del: 'Ópera prima terminada + estrategia de festivales' },
-          ].map((sem) => (
-            <div className="sc" key={sem.n}>
-              <span className="sc-n" aria-hidden="true">{sem.n}</span>
-              <div className="sc-tag">// {sem.tag}</div>
-              <h3 className="sc-title">{sem.title}</h3>
-              <p className="sc-desc">{sem.desc}</p>
+            {
+              n: '01',
+              tag: 'Módulo 01 · Mes 1–2',
+              title: 'FUNDAMENTOS',
+              desc: 'Lenguaje cinematográfico, fotografía y sonido. Construyes las bases técnicas y narrativas para contar historias con imagen y sonido.',
+              del: 'Cortometraje de ejercicio',
+            },
+            {
+              n: '02',
+              tag: 'Módulo 02 · Mes 3–4',
+              title: 'REALIZACIÓN',
+              desc: 'Dirección, guion y producción. Desarrollas tu voz autoral y aprendes a llevar un proyecto cinematográfico de la página al set.',
+              del: 'Cortometraje de ficción',
+            },
+            {
+              n: '03',
+              tag: 'Módulo 03 · Mes 5–6',
+              title: 'POST-PRODUCCIÓN Y EXHIBICIÓN',
+              desc: 'Edición, corrección de color, diseño sonoro y distribución. Tu proyecto final cobra vida y se prepara para llegar al mundo.',
+              del: 'Proyecto final terminado + estrategia de festivales',
+            },
+          ].map((mod) => (
+            <div className="sc" key={mod.n}>
+              <span className="sc-n" aria-hidden="true">{mod.n}</span>
+              <div className="sc-tag">// {mod.tag}</div>
+              <h3 className="sc-title">{mod.title}</h3>
+              <p className="sc-desc">{mod.desc}</p>
               <div className="sc-del">
                 <div className="sc-del-lbl">&#9654; Entregable</div>
-                <p className="sc-del-txt">{sem.del}</p>
+                <p className="sc-del-txt">{mod.del}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* OPERA PRIMA */}
-      <section className="opera">
-        <div className="opera-left">
-          <div className="label">// 003 — Proyecto final de carrera</div>
-          <h2 className="opera-title">
-            ÓPERA
-            <em>PRIMA</em>
-          </h2>
-          <p className="opera-desc">
-            Tu tesis no es un trabajo escolar. Es tu primera película. Con tu generación, creas un largometraje — ficción, documental o piloto de TV. Arte7 Producciones lo financia. Tú lo diriges.
-          </p>
-          <p className="opera-desc" style={{ marginTop: 20, fontSize: '0.88rem', opacity: 0.65 }}>
-            &ldquo;De la idea a la pantalla grande&rdquo; no es un slogan.<br />
-            Es el plan de estudios completo.
-          </p>
-        </div>
-
-        <div className="opera-right">
-          <div className="ofact">
-            <span className="ofact-n">100%</span>
-            <span className="ofact-l">Financiado por Arte7 Producciones</span>
-          </div>
-          <div className="ofact">
-            <span className="ofact-n">3</span>
-            <span className="ofact-l">Formatos: Ficción · Documental · Piloto TV</span>
-          </div>
-          <div className="ofact">
-            <span className="ofact-n">26</span>
-            <span className="ofact-l">Años haciendo esto posible</span>
-          </div>
-        </div>
-      </section>
-
-      {/* SCHOLARSHIP */}
-      <section className="scholarship">
-        <div className="schol-number" aria-hidden="true">20<em>%</em></div>
-        <div className="schol-content">
-          <div className="label" style={{ color: 'var(--black)' }}>// 004 — Apoyo económico</div>
-          <h2>BECA POR<br />RENDIMIENTO</h2>
-          <p>
-            Una beca académica por generación, a partir del segundo semestre. Reducción del 20% en colegiatura para el alumno que demuestre excelencia académica y compromiso real con el programa.
-          </p>
-          <ul className="req-list">
-            <li>Promedio mínimo de 8.5</li>
-            <li>Asistencia mínima del 80%</li>
-            <li>Aplica a partir del segundo semestre</li>
-            <li>Un lugar disponible por generación</li>
-          </ul>
-        </div>
-        <div className="schol-ghost" aria-hidden="true">BECA</div>
-      </section>
-
       {/* ADMISSION */}
       <section className="admission" id="admision">
-        <div className="label">// 005 — Proceso de admisión</div>
+        <div className="label">// 003 — Proceso de admisión</div>
         <h2 className="adm-title">3 PASOS.<br /><em>EMPIEZA HOY.</em></h2>
 
         <div className="steps">
@@ -307,7 +265,7 @@ export default function Home() {
             <span className="step-n">// PASO 03</span>
             <h3 className="step-title">DOCUMENTACIÓN Y PRIMER MES</h3>
             <p className="step-desc">
-              Entregas la documentación requerida y cubres el primer mes de colegiatura. A partir de ahí, eres parte de Arte7. Empieza agosto 2026.
+              Entregas la documentación requerida y cubres el primer mes de colegiatura. A partir de ahí, eres parte de Arte7. Empieza mayo 2026.
             </p>
           </div>
         </div>
@@ -326,7 +284,7 @@ export default function Home() {
         </div>
         <div>
           <a
-            href="https://wa.me/525527323335?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20Carrera%20de%20Cine"
+            href="https://wa.me/525527323335?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20el%20Diplomado%20Intensivo%20de%20Cine%20CDMX"
             className="btn-ghost"
             style={{ borderColor: 'var(--black)', color: 'var(--black)', padding: '18px 36px', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.25rem', letterSpacing: '0.08em' }}
           >
@@ -343,7 +301,7 @@ export default function Home() {
           <div>
             <h2 className="cta-h">¿LISTO<br />PARA<br />HACER<br />CINE?</h2>
             <p className="cta-sub">
-              Agosto 2026. Lugares limitados. Coyoacán, CDMX.<br />
+              19 de Mayo 2026. Lugares limitados. Coyoacán, CDMX.<br />
               Regístrate hoy — sin costo, sin compromiso.
             </p>
           </div>
@@ -389,13 +347,10 @@ export default function Home() {
                 value={formData.interes}
                 onChange={(e) => setFormData({ ...formData, interes: e.target.value })}
               >
-                <option value="">— ¿Cuál es tu interés? —</option>
-                <option value="Carrera CDMX">Carrera de Cine CDMX</option>
-                <option value="Carrera Querétaro">Carrera de Cine Querétaro</option>
-                <option value="Diplomado CDMX">Diplomado Intensivo CDMX</option>
-                <option value="Diplomado QRO">Diplomado Intensivo QRO</option>
-                <option value="Cursos Online">Cursos Online (A7D)</option>
-                <option value="Actuación">Actuación (FAC)</option>
+                <option value="Diplomado CDMX">Diplomado CDMX</option>
+                <option value="Diplomado QRO">Diplomado QRO</option>
+                <option value="Carrera CDMX">Carrera CDMX</option>
+                <option value="Carrera QRO">Carrera QRO</option>
               </select>
 
               <button type="submit" className="btn-cta1" disabled={status === 'sending'}>
@@ -407,7 +362,7 @@ export default function Home() {
               )}
 
               <a
-                href="mailto:cary@arte7.net?subject=Informes%20Carrera%20de%20Cine"
+                href="mailto:cary@arte7.net?subject=Informes%20Diplomado%20Intensivo%20de%20Cine%20CDMX"
                 className="btn-cta2"
               >
                 ESCRIBE A CARY@ARTE7.NET
@@ -462,7 +417,7 @@ export default function Home() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2026 Arte7 Escuela de Cine · Todos los derechos reservados · arte7.net</p>
+          <p>&copy; 2026 Arte7 Escuela de Cine &middot; Todos los derechos reservados &middot; arte7.net</p>
           <p>Partner oficial: CANON &nbsp;&middot;&nbsp; Landing diseñada por Estrategia Digital Arte7</p>
         </div>
       </footer>

@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Home() {
+export default function QROPage() {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     telefono: '',
-    interes: '',
+    interes: 'Carrera Querétaro',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -42,12 +42,12 @@ export default function Home() {
       if (!res.ok) throw new Error('Error al enviar');
 
       setStatus('success');
-      setFormData({ nombre: '', email: '', telefono: '', interes: '' });
+      setFormData({ nombre: '', email: '', telefono: '', interes: 'Carrera Querétaro' });
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
-        window.location.href = `https://wa.me/525527323335?text=${encodeURIComponent(
-          `Hola Arte7, soy ${formData.nombre}. Acabo de registrar mi interés en ${formData.interes}. Quiero más información.`
+        window.location.href = `https://wa.me/524422810663?text=${encodeURIComponent(
+          `Hola Arte7 Querétaro, soy ${formData.nombre}. Acabo de registrar mi interés en la Carrera de Cine. Quiero más información.`
         )}`;
       }, 2500);
     } catch {
@@ -62,7 +62,7 @@ export default function Home() {
       <nav>
         <div className="nav-left">
           <a href="https://arte7.net" className="nav-logo"><img src="/logo-blanco.png" alt="Arte7" className="nav-logo-img" /></a>
-          <span className="nav-tag">// Escuela de Cine · CDMX</span>
+          <span className="nav-tag">// Escuela de Cine · Querétaro</span>
         </div>
         <div className="nav-right">
           <a href="#curriculum" className="nav-link">Plan de estudios</a>
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="hero-rail" />
         <div className="hero-body">
           <div className="hero-eyebrow">
-            Arte7 Escuela de Cine &nbsp;&middot;&nbsp; Fundada 1999 &nbsp;&middot;&nbsp; Coyoacán, CDMX
+            Arte7 Escuela de Cine &nbsp;&middot;&nbsp; Fundada 1999 &nbsp;&middot;&nbsp; Querétaro
           </div>
 
           <h1 className="hero-h1">
@@ -84,7 +84,7 @@ export default function Home() {
             <span className="accent">DE CINE</span>
           </h1>
 
-          <p className="hero-location">CDMX &nbsp;&middot;&nbsp; COYOACÁN &nbsp;&middot;&nbsp; SAN DIEGO CHURUBUSCO</p>
+          <p className="hero-location">QUERÉTARO &nbsp;&middot;&nbsp; CENTRO CULTURAL LA FÁBRICA</p>
 
           <div className="hero-stats">
             <div className="hstat">
@@ -107,7 +107,7 @@ export default function Home() {
 
           <div className="hero-ctas">
             <a href="#inscribete" className="btn-hero">INSCRÍBETE AHORA →</a>
-            <a href="mailto:cary@arte7.net" className="btn-ghost">ESCRÍBENOS</a>
+            <a href="mailto:ferluna@arte7.net" className="btn-ghost">ESCRÍBENOS</a>
           </div>
 
           <div className="scroll-hint">
@@ -128,7 +128,7 @@ export default function Home() {
       <div className="ticker" aria-hidden="true">
         <div className="ticker-track">
           <span className="ti">CARRERA DE CINE</span><span className="ti ti-sep">///</span>
-          <span className="ti">CDMX · COYOACÁN</span><span className="ti ti-sep">///</span>
+          <span className="ti">QUERÉTARO</span><span className="ti ti-sep">///</span>
           <span className="ti">3 AÑOS · 7 SEMESTRES</span><span className="ti ti-sep">///</span>
           <span className="ti">ÓPERA PRIMA FINANCIADA</span><span className="ti ti-sep">///</span>
           <span className="ti">CANON OFFICIAL PARTNER</span><span className="ti ti-sep">///</span>
@@ -137,7 +137,7 @@ export default function Home() {
           <span className="ti">INICIO AGOSTO 2026</span><span className="ti ti-sep">///</span>
           {/* duplicate for seamless loop */}
           <span className="ti">CARRERA DE CINE</span><span className="ti ti-sep">///</span>
-          <span className="ti">CDMX · COYOACÁN</span><span className="ti ti-sep">///</span>
+          <span className="ti">QUERÉTARO</span><span className="ti ti-sep">///</span>
           <span className="ti">3 AÑOS · 7 SEMESTRES</span><span className="ti ti-sep">///</span>
           <span className="ti">ÓPERA PRIMA FINANCIADA</span><span className="ti ti-sep">///</span>
           <span className="ti">CANON OFFICIAL PARTNER</span><span className="ti ti-sep">///</span>
@@ -317,16 +317,16 @@ export default function Home() {
       <div className="contact-strip">
         <div className="cs-left">
           <h3>¿TIENES DUDAS?<br />ESCRÍBENOS AHORA.</h3>
-          <p>// cary@arte7.net — respuesta garantizada</p>
+          <p>// ferluna@arte7.net — respuesta garantizada</p>
         </div>
         <div className="cs-phones">
-          <span className="cs-label">// CDMX — Coyoacán</span>
-          <a href="tel:+525527323335">+52 (55) 2732–3335</a>
-          <a href="tel:+525556590075">+52 (55) 5659–0075</a>
+          <span className="cs-label">// Querétaro — Centro Cultural La Fábrica</span>
+          <a href="tel:+524421291736">(442) 129–1736</a>
+          <a href="tel:+524422810663">(442) 281–0663</a>
         </div>
         <div>
           <a
-            href="https://wa.me/525527323335?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20Carrera%20de%20Cine"
+            href="https://wa.me/524422810663?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20Carrera%20de%20Cine%20en%20Quer%C3%A9taro"
             className="btn-ghost"
             style={{ borderColor: 'var(--black)', color: 'var(--black)', padding: '18px 36px', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.25rem', letterSpacing: '0.08em' }}
           >
@@ -343,7 +343,7 @@ export default function Home() {
           <div>
             <h2 className="cta-h">¿LISTO<br />PARA<br />HACER<br />CINE?</h2>
             <p className="cta-sub">
-              Agosto 2026. Lugares limitados. Coyoacán, CDMX.<br />
+              Mayo 2026. Lugares limitados. Querétaro.<br />
               Regístrate hoy — sin costo, sin compromiso.
             </p>
           </div>
@@ -352,7 +352,7 @@ export default function Home() {
             <div className="lead-form" style={{ justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
               <div style={{ fontSize: '3rem' }}>&#10003;</div>
               <p className="form-message form-success" style={{ fontSize: '1.1rem' }}>
-                ¡Gracias! Cary se pondrá en contacto contigo pronto.
+                ¡Gracias! Fer se pondrá en contacto contigo pronto.
               </p>
               <p style={{ fontSize: '0.8rem', opacity: 0.6, color: 'var(--black)', textAlign: 'center' }}>
                 Redirigiendo a WhatsApp...
@@ -379,7 +379,7 @@ export default function Home() {
               <input
                 type="tel"
                 name="telefono"
-                placeholder="+52 55 1234 5678"
+                placeholder="+52 442 123 4567"
                 value={formData.telefono}
                 onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
               />
@@ -391,9 +391,7 @@ export default function Home() {
               >
                 <option value="">— ¿Cuál es tu interés? —</option>
                 <option value="Carrera CDMX">Carrera de Cine CDMX</option>
-                <option value="Carrera Querétaro">Carrera de Cine Querétaro</option>
-                <option value="Diplomado CDMX">Diplomado Intensivo CDMX</option>
-                <option value="Diplomado QRO">Diplomado Intensivo QRO</option>
+                <option value="Carrera Querétaro">Carrera Querétaro</option>
                 <option value="Cursos Online">Cursos Online (A7D)</option>
                 <option value="Actuación">Actuación (FAC)</option>
               </select>
@@ -407,10 +405,10 @@ export default function Home() {
               )}
 
               <a
-                href="mailto:cary@arte7.net?subject=Informes%20Carrera%20de%20Cine"
+                href="mailto:ferluna@arte7.net?subject=Informes%20Carrera%20de%20Cine%20Quer%C3%A9taro"
                 className="btn-cta2"
               >
-                ESCRIBE A CARY@ARTE7.NET
+                ESCRIBE A FERLUNA@ARTE7.NET
               </a>
             </form>
           )}
@@ -430,15 +428,15 @@ export default function Home() {
           </div>
 
           <div className="fcol">
-            <h4>// Contacto CDMX</h4>
-            <a href="tel:+525527323335">+52 (55) 2732–3335</a>
-            <a href="tel:+525556590075">+52 (55) 5659–0075</a>
-            <a href="mailto:cary@arte7.net">cary@arte7.net</a>
-            <a href="mailto:info@arte7.net">info@arte7.net</a>
+            <h4>// Contacto Querétaro</h4>
+            <a href="tel:+524421291736">(442) 129–1736</a>
+            <a href="tel:+524422810663">(442) 281–0663</a>
+            <a href="mailto:ferluna@arte7.net">ferluna@arte7.net</a>
             <address>
-              Cerrada Eleuterio Méndez #11<br />
-              San Diego Churubusco<br />
-              Coyoacán, CDMX
+              Centro Cultural La Fábrica<br />
+              Av. Industrialización 4<br />
+              Álamos 2da sección<br />
+              Querétaro, Qro. 76160
             </address>
           </div>
 
