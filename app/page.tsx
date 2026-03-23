@@ -46,7 +46,7 @@ export default function Home() {
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
-        window.location.href = `https://wa.me/525556590075?text=${encodeURIComponent(
+        window.location.href = `https://wa.me/525527323335?text=${encodeURIComponent(
           `Hola Arte7, soy ${formData.nombre}. Acabo de registrar mi interés en ${formData.interes}. Quiero más información.`
         )}`;
       }, 2500);
@@ -321,12 +321,12 @@ export default function Home() {
         </div>
         <div className="cs-phones">
           <span className="cs-label">// CDMX — Coyoacán</span>
-          <a href="tel:+525556590075">+52 (55) 5659–0075</a>
           <a href="tel:+525527323335">+52 (55) 2732–3335</a>
+          <a href="tel:+525556590075">+52 (55) 5659–0075</a>
         </div>
         <div>
           <a
-            href="https://wa.me/525556590075?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20Carrera%20de%20Cine"
+            href="https://wa.me/525527323335?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20la%20Carrera%20de%20Cine"
             className="btn-ghost"
             style={{ borderColor: 'var(--black)', color: 'var(--black)', padding: '18px 36px', fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.25rem', letterSpacing: '0.08em' }}
           >
@@ -429,8 +429,8 @@ export default function Home() {
 
           <div className="fcol">
             <h4>// Contacto CDMX</h4>
-            <a href="tel:+525556590075">+52 (55) 5659–0075</a>
             <a href="tel:+525527323335">+52 (55) 2732–3335</a>
+            <a href="tel:+525556590075">+52 (55) 5659–0075</a>
             <a href="mailto:cary@arte7.net">cary@arte7.net</a>
             <a href="mailto:info@arte7.net">info@arte7.net</a>
             <address>
