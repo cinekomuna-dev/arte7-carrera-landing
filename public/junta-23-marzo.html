@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juntas Arte7 — 23 Marzo 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1A1A1A;
+      --red: #FF492F;
+      --teal: #038B96;
+      --orange: #EE9628;
+      --darkred: #9D2F20;
+      --cream: #FDF3E0;
+      --gray: #2E2E2E;
+      --gray2: #3D3D3D;
+      --green: #2ECC71;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26,26,26,0.97);
+      border-bottom: 2px solid var(--red);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 56px;
+    }
+    .nav-left { display: flex; align-items: center; gap: 16px; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--cream); letter-spacing: 0.1em; }
+    .nav-date { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--teal); letter-spacing: 0.1em; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--cream); text-decoration: none; letter-spacing: 0.08em;
+      opacity: 0.6; transition: all 0.2s; padding: 4px 8px; border-radius: 4px;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--red); background: rgba(255,73,47,0.1); }
+
+    /* HERO */
+    .hero {
+      padding: 100px 60px 60px;
+      border-bottom: 1px solid var(--gray2);
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem; letter-spacing: 0.08em;
+      color: var(--cream);
+    }
+    .hero h1 span { color: var(--red); }
+    .hero p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--teal);
+      margin-top: 8px; letter-spacing: 0.1em;
+    }
+    .hero-badges {
+      display: flex; gap: 12px; justify-content: center; margin-top: 20px; flex-wrap: wrap;
+    }
+    .hero-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      padding: 6px 14px; border-radius: 20px; letter-spacing: 0.08em;
+    }
+
+    /* SECTIONS */
+    section { padding: 60px; border-bottom: 1px solid var(--gray2); }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--red); letter-spacing: 0.15em; margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+      letter-spacing: 0.06em; margin-bottom: 24px;
+    }
+
+    /* AGENDA TABS */
+    .tabs { display: flex; gap: 0; margin-bottom: 30px; border-bottom: 2px solid var(--gray2); }
+    .tab {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      padding: 12px 24px; cursor: pointer; letter-spacing: 0.08em;
+      color: var(--cream); opacity: 0.5; transition: all 0.2s;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+      background: none; border-top: none; border-left: none; border-right: none;
+    }
+    .tab:hover { opacity: 0.8; }
+    .tab.active { opacity: 1; color: var(--red); border-bottom-color: var(--red); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* CARDS */
+    .card {
+      background: var(--gray); border: 1px solid var(--gray2);
+      padding: 24px; margin-bottom: 16px; position: relative;
+      transition: all 0.2s;
+    }
+    .card:hover { border-color: var(--teal); }
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+      letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .card-body {
+      font-size: 0.85rem; line-height: 1.6; opacity: 0.85;
+    }
+    .card-body ul { padding-left: 20px; margin-top: 8px; }
+    .card-body li { margin-bottom: 6px; }
+
+    /* STATUS BADGES */
+    .status {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      padding: 3px 10px; border-radius: 3px; letter-spacing: 0.1em;
+      display: inline-block; margin-right: 8px;
+    }
+    .status-done { background: var(--green); color: var(--black); }
+    .status-progress { background: var(--orange); color: var(--black); }
+    .status-pending { background: var(--gray2); color: var(--cream); border: 1px solid var(--cream); }
+    .status-fix { background: var(--red); color: var(--cream); }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; border: 1px solid var(--gray2);
+      margin-bottom: 8px; cursor: pointer; transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+    .checklist li:hover { border-color: var(--teal); background: rgba(3,139,150,0.05); }
+    .checklist li.checked { opacity: 0.5; text-decoration: line-through; }
+    .checklist li .check {
+      width: 18px; height: 18px; border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 0.7rem; transition: all 0.2s;
+    }
+    .checklist li.checked .check { background: var(--teal); color: var(--black); }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    /* LINKS */
+    .link-card {
+      display: block; background: var(--gray); border: 1px solid var(--gray2);
+      padding: 16px 20px; text-decoration: none; color: var(--cream);
+      transition: all 0.2s; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    }
+    .link-card:hover { border-color: var(--red); background: rgba(255,73,47,0.05); }
+    .link-card .link-label { font-size: 0.6rem; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 4px; }
+
+    /* MINUTA */
+    .minuta-area {
+      background: var(--gray); border: 1px solid var(--gray2);
+      padding: 20px; margin-top: 20px;
+    }
+    .minuta-area textarea {
+      width: 100%; min-height: 150px; background: var(--black);
+      border: 1px solid var(--gray2); color: var(--cream); padding: 16px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem;
+      resize: vertical; outline: none;
+    }
+    .minuta-area textarea:focus { border-color: var(--teal); }
+    .minuta-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--teal); letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      padding: 10px 20px; border: none; cursor: pointer;
+      letter-spacing: 0.08em; transition: all 0.2s; margin-top: 12px;
+    }
+    .btn-red { background: var(--red); color: var(--cream); }
+    .btn-red:hover { background: #e0412a; }
+    .btn-teal { background: var(--teal); color: var(--cream); }
+    .btn-teal:hover { background: #02747d; }
+    .btn-outline {
+      background: transparent; color: var(--cream);
+      border: 1px solid var(--cream); margin-left: 8px;
+    }
+    .btn-outline:hover { background: var(--cream); color: var(--black); }
+
+    /* TIMER */
+    .timer {
+      position: fixed; bottom: 20px; right: 20px; z-index: 200;
+      background: var(--gray); border: 1px solid var(--red);
+      padding: 12px 20px; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; display: flex; align-items: center; gap: 12px;
+    }
+    .timer-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .timer-time { font-size: 1.1rem; color: var(--red); font-weight: 700; }
+    .timer-btns { display: flex; gap: 6px; }
+    .timer-btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      padding: 4px 8px; border: 1px solid var(--gray2); background: none;
+      color: var(--cream); cursor: pointer; transition: all 0.2s;
+    }
+    .timer-btn:hover { border-color: var(--teal); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; }
+      .hero { padding: 80px 20px 40px; }
+      .hero h1 { font-size: 2rem; }
+      section { padding: 40px 20px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .tabs { flex-wrap: wrap; }
+      .timer { bottom: 10px; right: 10px; padding: 8px 12px; }
+    }
+
+    .highlight { color: var(--orange); font-weight: 600; }
+    .teal { color: var(--teal); }
+    .red { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;z-index:9999;background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+  <span style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.1em;color:#FDF3E0;">ARTE 7 // ACCESO RESTRINGIDO</span>
+  <input id="gate-pass" type="password" placeholder="Contraseña..." autofocus
+    style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:14px 24px;background:#2E2E2E;border:1px solid #3D3D3D;color:#FDF3E0;width:280px;outline:none;text-align:center;letter-spacing:0.1em;"
+    onkeydown="if(event.key==='Enter')checkGate()" />
+  <button onclick="checkGate()"
+    style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:10px 24px;background:#FF492F;color:#FDF3E0;border:none;cursor:pointer;letter-spacing:0.1em;">ENTRAR</button>
+  <span id="gate-err" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#FF492F;opacity:0;transition:opacity 0.3s;">Contraseña incorrecta</span>
+</div>
+<script>
+(function(){
+  if(localStorage.getItem('a7-junta23-auth')==='1'){document.getElementById('gate').style.display='none';}
+})();
+function checkGate(){
+  if(document.getElementById('gate-pass').value==='arte7junta2026'){
+    document.getElementById('gate').style.display='none';
+    localStorage.setItem('a7-junta23-auth','1');
+  } else {
+    document.getElementById('gate-err').style.opacity='1';
+    setTimeout(()=>{document.getElementById('gate-err').style.opacity='0';},2000);
+  }
+}
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <span class="nav-logo">ARTE 7</span>
+    <span class="nav-date">23 MARZO 2026</span>
+  </div>
+  <div class="nav-links">
+    <a href="#redes">01 REDES</a>
+    <a href="#dashboard">02 DASHBOARD</a>
+    <a href="#resuelto">03 RESUELTO</a>
+    <a href="#pendientes">04 PENDIENTES</a>
+    <a href="#minuta">05 MINUTA</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>JUNTAS <span>23 MARZO</span></h1>
+  <p>// DOS SESIONES: ESTRATEGIA DIGITAL + DASHBOARD LEADS</p>
+  <div class="hero-badges">
+    <span class="hero-badge" style="background:var(--red);color:var(--cream);">JUNTA 1: REDES & ESTRATEGIA</span>
+    <span class="hero-badge" style="background:var(--teal);color:var(--cream);">JUNTA 2: DASHBOARD CON CARY</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- JUNTA 1: REDES & ESTRATEGIA DIGITAL           -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="redes">
+  <div class="section-tag">// JUNTA 1</div>
+  <div class="section-title">ESTRATEGIA DIGITAL & REDES</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('redes', 'contexto')">CONTEXTO</button>
+    <button class="tab" onclick="switchTab('redes', 'utm')">UTM & TRACKING</button>
+    <button class="tab" onclick="switchTab('redes', 'estrategia')">ESTRATEGIA</button>
+    <button class="tab" onclick="switchTab('redes', 'contenido')">CONTENIDO</button>
+  </div>
+
+  <!-- CONTEXTO -->
+  <div class="tab-content active" id="redes-contexto">
+    <div class="card">
+      <div class="card-title">SISTEMA ACTUAL</div>
+      <div class="card-body">
+        <ul>
+          <li><span class="highlight">Landing page</span> en <span class="teal">carrera.arte7.net</span> — captura leads con formulario</li>
+          <li><span class="highlight">Dashboard de leads</span> en <span class="teal">carrera.arte7.net/dashboard</span> — CRM para dar seguimiento</li>
+          <li><span class="highlight">Lead scoring</span> automatico (0-100) basado en datos del formulario</li>
+          <li><span class="highlight">Estados del lead:</span> Nuevo → Contactado → En Seguimiento → Caliente → Inscrito / Perdido</li>
+          <li><span class="highlight">Acciones directas:</span> WhatsApp, Email, Notas, Eliminar, Exportar CSV</li>
+          <li><span class="highlight">UTM tracking:</span> source, medium, campaign — se capturan automaticamente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title" style="color:var(--green)">LEADS TOTALES</div>
+        <div class="card-body" style="font-size:2rem;font-family:'Bebas Neue';color:var(--green)">3</div>
+        <div class="card-body" style="font-size:0.7rem;opacity:0.5;margin-top:4px">Datos de prueba</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--orange)">SCORE PROMEDIO</div>
+        <div class="card-body" style="font-size:2rem;font-family:'Bebas Neue';color:var(--orange)">43</div>
+        <div class="card-body" style="font-size:0.7rem;opacity:0.5;margin-top:4px">Rango medio</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--teal)">CANALES ACTIVOS</div>
+        <div class="card-body" style="font-size:2rem;font-family:'Bebas Neue';color:var(--teal)">?</div>
+        <div class="card-body" style="font-size:0.7rem;opacity:0.5;margin-top:4px">Definir con redes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UTM & TRACKING -->
+  <div class="tab-content" id="redes-utm">
+    <div class="card">
+      <div class="card-title">COMO USAR UTMs EN REDES</div>
+      <div class="card-body">
+        <p>Cada link que se comparta en redes debe llevar parametros UTM para rastrear de donde vienen los leads:</p>
+        <ul>
+          <li><span class="highlight">utm_source</span> = plataforma (instagram, facebook, tiktok, google)</li>
+          <li><span class="highlight">utm_medium</span> = tipo de contenido (story, post, reel, ad, bio)</li>
+          <li><span class="highlight">utm_campaign</span> = campaña especifica (inscripciones-2026, open-house, promo-marzo)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">EJEMPLOS DE LINKS</div>
+      <div class="card-body" style="font-family:'JetBrains Mono';font-size:0.7rem;">
+        <p style="margin-bottom:12px;color:var(--teal)">// Instagram Bio:</p>
+        <p style="word-break:break-all;background:var(--black);padding:10px;margin-bottom:16px;">carrera.arte7.net<span class="red">?utm_source=instagram&utm_medium=bio&utm_campaign=inscripciones-2026</span></p>
+
+        <p style="margin-bottom:12px;color:var(--teal)">// Facebook Ad:</p>
+        <p style="word-break:break-all;background:var(--black);padding:10px;margin-bottom:16px;">carrera.arte7.net<span class="red">?utm_source=facebook&utm_medium=ad&utm_campaign=promo-marzo</span></p>
+
+        <p style="margin-bottom:12px;color:var(--teal)">// TikTok Bio:</p>
+        <p style="word-break:break-all;background:var(--black);padding:10px;">carrera.arte7.net<span class="red">?utm_source=tiktok&utm_medium=bio&utm_campaign=inscripciones-2026</span></p>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:var(--orange)">
+      <div class="card-title" style="color:var(--orange)">IMPORTANTE</div>
+      <div class="card-body">
+        <ul>
+          <li>El dashboard ya captura estos datos automaticamente</li>
+          <li>Se puede filtrar por fuente (utm_source) en el dashboard</li>
+          <li>Con esto podemos medir que canal trae mas leads y de mejor calidad (score)</li>
+          <li><span class="red">Sin UTMs no sabemos de donde vienen los leads</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRATEGIA -->
+  <div class="tab-content" id="redes-estrategia">
+    <div class="card">
+      <div class="card-title">PREGUNTAS PARA REDES</div>
+      <div class="card-body">
+        <ul class="checklist" id="checklist-redes">
+          <li onclick="toggleCheck(this)"><span class="check"></span> Que redes se estan usando activamente? (IG, FB, TikTok, YouTube?)</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Ya se esta compartiendo el link de carrera.arte7.net?</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Se estan usando UTMs en los links?</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Cual es el calendario de publicaciones?</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Hay presupuesto para ads (Meta, TikTok)?</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Que tipo de contenido funciona mejor? (reels, stories, posts)</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Hay colaboraciones con influencers o creadores?</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Se necesita landing especifica para alguna campaña?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">SUGERENCIAS DE CAMPAÑAS</div>
+      <div class="card-body">
+        <ul>
+          <li><span class="highlight">Open House virtual/presencial</span> — landing dedicada + registro</li>
+          <li><span class="highlight">Testimoniales de alumnos</span> — reels con link a la landing</li>
+          <li><span class="highlight">Behind the scenes</span> — mostrar clases, equipo, campus</li>
+          <li><span class="highlight">Early bird / Becas</span> — urgencia para inscripciones</li>
+          <li><span class="highlight">Masterclass gratis</span> — captura de leads con contenido de valor</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="tab-content" id="redes-contenido">
+    <div class="card">
+      <div class="card-title">ASSETS DISPONIBLES</div>
+      <div class="card-body">
+        <ul>
+          <li><span class="status status-done">LIVE</span> Landing page con formulario de contacto</li>
+          <li><span class="status status-done">LIVE</span> Dashboard de leads para seguimiento</li>
+          <li><span class="status status-done">LIVE</span> WhatsApp directo desde dashboard</li>
+          <li><span class="status status-pending">PENDIENTE</span> Pixel de Meta / TikTok en la landing?</li>
+          <li><span class="status status-pending">PENDIENTE</span> Google Analytics / Tag Manager?</li>
+          <li><span class="status status-pending">PENDIENTE</span> Landing especifica para ads?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- JUNTA 2: DASHBOARD CON CARY                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="dashboard">
+  <div class="section-tag">// JUNTA 2</div>
+  <div class="section-title">DASHBOARD DE LEADS — REVISION CON CARY</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('dash', 'acceso')">ACCESO</button>
+    <button class="tab" onclick="switchTab('dash', 'funciones')">FUNCIONES</button>
+    <button class="tab" onclick="switchTab('dash', 'demo')">DEMO CHECKLIST</button>
+    <button class="tab" onclick="switchTab('dash', 'feedback')">FEEDBACK</button>
+  </div>
+
+  <!-- ACCESO -->
+  <div class="tab-content active" id="dash-acceso">
+    <div class="card" style="border-color:var(--green)">
+      <div class="card-title" style="color:var(--green)">PROBLEMA RESUELTO HOY</div>
+      <div class="card-body">
+        <ul>
+          <li><span class="status status-fix">FIX</span> El link de recovery apuntaba a <span class="red">localhost:3000</span> en vez del dominio real</li>
+          <li><span class="status status-done">DONE</span> Site URL cambiado a <span class="teal">https://carrera.arte7.net</span> en Supabase</li>
+          <li><span class="status status-done">DONE</span> Usuario <span class="highlight">cary@arte7.net</span> creado con auto-confirm</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">CREDENCIALES CARY</div>
+        <div class="card-body" style="font-family:'JetBrains Mono';font-size:0.8rem;">
+          <p><span class="teal">URL:</span> carrera.arte7.net/dashboard</p>
+          <p><span class="teal">Email:</span> cary@arte7.net</p>
+          <p><span class="teal">Pass:</span> Arte7leads2026!</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">OTROS USUARIOS</div>
+        <div class="card-body" style="font-family:'JetBrains Mono';font-size:0.75rem;">
+          <p>coordinacion@arte7.net <span class="teal">(CDMX)</span></p>
+          <p>coordinacionqro@arte7.net <span class="teal">(QRO)</span></p>
+          <p>ladxidua@arte7.net <span class="teal">(Creativo)</span></p>
+          <p>nino@dreamsmatter.ai <span class="teal">(Admin)</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUNCIONES -->
+  <div class="tab-content" id="dash-funciones">
+    <div class="card">
+      <div class="card-title">FUNCIONES DEL DASHBOARD</div>
+      <div class="card-body">
+        <ul>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Stats en tiempo real</span> — Total, por estado, score promedio</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Filtros</span> — Por estado, interes, busqueda por nombre/email</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Cambiar estado</span> — Dropdown en cada tarjeta de lead</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Notas</span> — Click para agregar/editar notas por lead</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">WhatsApp directo</span> — Abre chat con mensaje pre-armado</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Email directo</span> — Abre cliente de email</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Exportar CSV</span> — Descarga todos los leads filtrados</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Paginacion</span> — 20 leads por pagina</li>
+          <li><span class="status status-done">LIVE</span> <span class="highlight">Lead scoring</span> — Score 0-100 con colores (rojo/naranja/verde)</li>
+          <li><span class="status status-done">NEW</span> <span class="highlight">Eliminar lead</span> — Boton con confirmacion <span class="red">(RECIEN DEPLOYADO)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO CHECKLIST -->
+  <div class="tab-content" id="dash-demo">
+    <div class="card">
+      <div class="card-title">CHECKLIST DE DEMO PARA CARY</div>
+      <div class="card-body">
+        <ul class="checklist" id="checklist-demo">
+          <li onclick="toggleCheck(this)"><span class="check"></span> Confirmar que puede hacer login</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Mostrar la barra de stats arriba</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Filtrar por estado (click en stats)</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Buscar un lead por nombre</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Cambiar estado de un lead</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Agregar una nota a un lead</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Probar boton de WhatsApp</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Probar boton de eliminar (nuevo)</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Exportar CSV</li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> Preguntar que funciones adicionales necesita</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK -->
+  <div class="tab-content" id="dash-feedback">
+    <div class="card">
+      <div class="card-title">FEEDBACK DE CARY</div>
+      <div class="card-body">
+        <p style="margin-bottom:12px;opacity:0.6;font-size:0.8rem">Anotar aqui lo que Cary pida o comente:</p>
+        <ul class="checklist" id="checklist-feedback">
+          <li onclick="toggleCheck(this)"><span class="check"></span> <span contenteditable="true" style="outline:none;min-width:200px;display:inline-block">Click para escribir...</span></li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> <span contenteditable="true" style="outline:none;min-width:200px;display:inline-block">Click para escribir...</span></li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> <span contenteditable="true" style="outline:none;min-width:200px;display:inline-block">Click para escribir...</span></li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> <span contenteditable="true" style="outline:none;min-width:200px;display:inline-block">Click para escribir...</span></li>
+          <li onclick="toggleCheck(this)"><span class="check"></span> <span contenteditable="true" style="outline:none;min-width:200px;display:inline-block">Click para escribir...</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- RESUELTO HOY                                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="resuelto">
+  <div class="section-tag">// RESUELTO HOY</div>
+  <div class="section-title">LO QUE SE ARREGLO</div>
+
+  <div class="grid-3">
+    <div class="card" style="border-left: 3px solid var(--green)">
+      <div class="card-title" style="color:var(--green)">SITE URL</div>
+      <div class="card-body">Cambiado de localhost:3000 a carrera.arte7.net en Supabase Auth config</div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--green)">
+      <div class="card-title" style="color:var(--green)">USUARIO CARY</div>
+      <div class="card-body">Creado cary@arte7.net con auto-confirm en el proyecto correcto de Supabase</div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--green)">
+      <div class="card-title" style="color:var(--green)">ELIMINAR LEADS</div>
+      <div class="card-body">Boton de eliminar agregado a cada tarjeta con confirmacion. Ya deployado.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PENDIENTES                                      -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="pendientes">
+  <div class="section-tag">// PENDIENTES</div>
+  <div class="section-title">TAREAS PENDIENTES</div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left: 3px solid var(--orange)">
+      <div class="card-title" style="color:var(--orange)">TECH</div>
+      <div class="card-body">
+        <ul>
+          <li>Agregar Redirect URLs en Supabase</li>
+          <li>Verificar que el deploy de Vercel esta correcto</li>
+          <li>Pixel de Meta en la landing?</li>
+          <li>Google Analytics / Tag Manager?</li>
+          <li>Revisar que proyecto de Supabase se usa (hay 2 IDs diferentes)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--orange)">
+      <div class="card-title" style="color:var(--orange)">REDES</div>
+      <div class="card-body">
+        <ul>
+          <li>Definir estrategia UTM con equipo de redes</li>
+          <li>Compartir links con UTMs correctos</li>
+          <li>Definir calendario de contenido</li>
+          <li>Evaluar presupuesto para ads</li>
+          <li>Crear assets visuales para redes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--orange)">
+      <div class="card-title" style="color:var(--orange)">DASHBOARD</div>
+      <div class="card-body">
+        <ul>
+          <li>Capacitar a Cary en uso del dashboard</li>
+          <li>Recopilar feedback de funcionalidad</li>
+          <li>Posibles mejoras: filtro por fecha, graficas, notificaciones</li>
+          <li>Definir roles y permisos por usuario</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--orange)">
+      <div class="card-title" style="color:var(--orange)">NEGOCIO</div>
+      <div class="card-body">
+        <ul>
+          <li>Meta de leads por mes?</li>
+          <li>Proceso de seguimiento definido?</li>
+          <li>Tiempos de respuesta objetivo?</li>
+          <li>Criterios de scoring afinados?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MINUTA                                          -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="minuta" style="padding-bottom:120px;">
+  <div class="section-tag">// MINUTA</div>
+  <div class="section-title">NOTAS DE LA JUNTA</div>
+
+  <div class="grid-2">
+    <div class="minuta-area">
+      <div class="minuta-label">JUNTA 1 — REDES & ESTRATEGIA</div>
+      <textarea id="minuta-redes" placeholder="Anotar acuerdos, decisiones, pendientes..."></textarea>
+    </div>
+    <div class="minuta-area">
+      <div class="minuta-label">JUNTA 2 — DASHBOARD CON CARY</div>
+      <textarea id="minuta-dash" placeholder="Anotar feedback, solicitudes, bugs reportados..."></textarea>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; display:flex; gap:8px;">
+    <button class="btn btn-teal" onclick="saveMinuta()">Guardar minuta</button>
+    <button class="btn btn-outline" onclick="copyMinuta()">Copiar al portapapeles</button>
+  </div>
+  <p id="minuta-status" style="font-size:0.7rem;color:var(--green);margin-top:8px;opacity:0;transition:opacity 0.3s;font-family:'JetBrains Mono',monospace;"></p>
+</section>
+
+<!-- LINKS RAPIDOS (fixed bottom-left) -->
+<div style="position:fixed;bottom:20px;left:20px;z-index:200;display:flex;gap:8px;flex-direction:column;">
+  <a href="https://carrera.arte7.net" target="_blank" class="link-card" style="padding:8px 14px;">
+    <span class="link-label">LANDING</span>
+    carrera.arte7.net
+  </a>
+  <a href="https://carrera.arte7.net/dashboard" target="_blank" class="link-card" style="padding:8px 14px;">
+    <span class="link-label">DASHBOARD</span>
+    /dashboard
+  </a>
+</div>
+
+<!-- TIMER -->
+<div class="timer" id="timer">
+  <div class="timer-dot" id="timer-dot"></div>
+  <span class="timer-time" id="timer-display">00:00</span>
+  <div class="timer-btns">
+    <button class="timer-btn" onclick="toggleTimer()" id="timer-btn">START</button>
+    <button class="timer-btn" onclick="resetTimer()">RESET</button>
+  </div>
+</div>
+
+<script>
+  // ── TAB SWITCHING ──
+  function switchTab(group, tab) {
+    const prefix = group === 'dash' ? 'dash' : 'redes';
+    document.querySelectorAll(`[id^="${prefix}-"]`).forEach(el => {
+      if (el.classList.contains('tab-content')) el.classList.remove('active');
+    });
+    document.getElementById(`${prefix}-${tab}`).classList.add('active');
+
+    const section = document.getElementById(group === 'dash' ? 'dashboard' : 'redes');
+    section.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  // ── CHECKLIST ──
+  function toggleCheck(el) {
+    if (el.querySelector('[contenteditable]') && document.activeElement === el.querySelector('[contenteditable]')) return;
+    el.classList.toggle('checked');
+    const check = el.querySelector('.check');
+    check.textContent = el.classList.contains('checked') ? '✓' : '';
+    saveState();
+  }
+
+  // ── TIMER ──
+  let timerRunning = false;
+  let timerSeconds = 0;
+  let timerInterval = null;
+
+  function toggleTimer() {
+    timerRunning = !timerRunning;
+    document.getElementById('timer-btn').textContent = timerRunning ? 'PAUSE' : 'START';
+    document.getElementById('timer-dot').style.animationPlayState = timerRunning ? 'running' : 'paused';
+    if (timerRunning) {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+        const s = String(timerSeconds % 60).padStart(2, '0');
+        document.getElementById('timer-display').textContent = `${m}:${s}`;
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
+    }
+  }
+
+  function resetTimer() {
+    timerRunning = false;
+    timerSeconds = 0;
+    clearInterval(timerInterval);
+    document.getElementById('timer-display').textContent = '00:00';
+    document.getElementById('timer-btn').textContent = 'START';
+    document.getElementById('timer-dot').style.animationPlayState = 'paused';
+  }
+
+  // ── MINUTA ──
+  function saveMinuta() {
+    const data = {
+      redes: document.getElementById('minuta-redes').value,
+      dash: document.getElementById('minuta-dash').value,
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('arte7-minuta-23mar', JSON.stringify(data));
+    showStatus('Minuta guardada');
+  }
+
+  function copyMinuta() {
+    const redes = document.getElementById('minuta-redes').value;
+    const dash = document.getElementById('minuta-dash').value;
+    const text = `MINUTA JUNTAS ARTE7 — 23 MARZO 2026\n\n== JUNTA 1: REDES & ESTRATEGIA ==\n${redes}\n\n== JUNTA 2: DASHBOARD CON CARY ==\n${dash}`;
+    navigator.clipboard.writeText(text).then(() => showStatus('Copiado al portapapeles'));
+  }
+
+  function showStatus(msg) {
+    const el = document.getElementById('minuta-status');
+    el.textContent = msg;
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0'; }, 2000);
+  }
+
+  // ── PERSIST STATE ──
+  function saveState() {
+    const state = {};
+    document.querySelectorAll('.checklist li').forEach((li, i) => {
+      state[`check-${i}`] = li.classList.contains('checked');
+    });
+    localStorage.setItem('arte7-junta23-state', JSON.stringify(state));
+  }
+
+  function loadState() {
+    try {
+      const state = JSON.parse(localStorage.getItem('arte7-junta23-state') || '{}');
+      document.querySelectorAll('.checklist li').forEach((li, i) => {
+        if (state[`check-${i}`]) {
+          li.classList.add('checked');
+          li.querySelector('.check').textContent = '✓';
+        }
+      });
+      const minuta = JSON.parse(localStorage.getItem('arte7-minuta-23mar') || '{}');
+      if (minuta.redes) document.getElementById('minuta-redes').value = minuta.redes;
+      if (minuta.dash) document.getElementById('minuta-dash').value = minuta.dash;
+    } catch (e) {}
+  }
+
+  loadState();
+</script>
+</body>
+</html>
