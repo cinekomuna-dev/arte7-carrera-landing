@@ -51,6 +51,13 @@ export default function Home() {
           content_category: 'Carrera CDMX',
         });
       }
+      // Google Analytics 4: evento generate_lead
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'Carrera CDMX',
+          event_label: formData.interes,
+        });
+      }
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {

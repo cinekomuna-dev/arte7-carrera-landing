@@ -51,6 +51,13 @@ export default function DiplomadoQROPage() {
           content_category: 'Diplomado QRO',
         });
       }
+      // Google Analytics 4: evento generate_lead
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'Diplomado QRO',
+          event_label: 'Diplomado QRO',
+        });
+      }
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {

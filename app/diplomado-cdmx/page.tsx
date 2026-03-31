@@ -51,6 +51,13 @@ export default function DiplomadoCDMXPage() {
           content_category: 'Diplomado CDMX',
         });
       }
+      // Google Analytics 4: evento generate_lead
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'Diplomado CDMX',
+          event_label: 'Diplomado CDMX',
+        });
+      }
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {

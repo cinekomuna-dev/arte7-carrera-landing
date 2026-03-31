@@ -51,6 +51,13 @@ export default function QROPage() {
           content_category: 'Carrera QRO',
         });
       }
+      // Google Analytics 4: evento generate_lead
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'Carrera QRO',
+          event_label: 'Carrera Querétaro',
+        });
+      }
 
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
