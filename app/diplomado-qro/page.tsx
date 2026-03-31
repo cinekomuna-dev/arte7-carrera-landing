@@ -44,6 +44,14 @@ export default function DiplomadoQROPage() {
       setStatus('success');
       setFormData({ nombre: '', email: '', telefono: '', interes: 'Diplomado QRO' });
 
+      // Meta Pixel: evento Lead
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Diplomado QRO',
+          content_category: 'Diplomado QRO',
+        });
+      }
+
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
         window.location.href = `https://wa.me/524422810663?text=${encodeURIComponent(

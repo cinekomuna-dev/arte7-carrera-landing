@@ -44,6 +44,14 @@ export default function DiplomadoCDMXPage() {
       setStatus('success');
       setFormData({ nombre: '', email: '', telefono: '', interes: 'Diplomado CDMX' });
 
+      // Meta Pixel: evento Lead
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Diplomado CDMX',
+          content_category: 'Diplomado CDMX',
+        });
+      }
+
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
         window.location.href = `https://wa.me/525527323335?text=${encodeURIComponent(
