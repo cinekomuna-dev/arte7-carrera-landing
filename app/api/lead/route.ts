@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { calculateLeadScore } from '@/lib/scoring';
+import { sendMetaCapiLead } from '@/lib/meta-capi';
+import { sendGa4Event, newClientId } from '@/lib/ga4-server';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -50,7 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { nombre, email, telefono, interes, utm_source, utm_medium, utm_campaign } = body;
+    const { nombre, email, telefono, interes, utm_source, utm_medium, utm_campaign, event_id: clientEventId, fbp, fbc } = body;
 
     // 2. Validación server-side
     if (!nombre || typeof nombre !== 'string' || nombre.trim().length < 2) {
@@ -111,7 +114,48 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Error al guardar lead' }, { status: 500 });
     }
 
-    // 6. Email de notificación a Cary
+    // 6. Tracking server-side (Meta CAPI + GA4 MP) en paralelo con email
+    const event_id = clientEventId || randomUUID();
+    const client_ip = ip === 'unknown' ? undefined : ip;
+    const client_user_agent = req.headers.get('user-agent') || undefined;
+    const source_url = req.headers.get('referer') || 'https://carrera.proyectoarte7.net';
+
+    const [capiRes, ga4Res] = await Promise.all([
+      sendMetaCapiLead({
+        event_id,
+        email: emailClean,
+        phone: telefono,
+        program: interes,
+        client_ip,
+        client_user_agent,
+        fbp,
+        fbc,
+        source_url,
+      }).catch((e) => ({ ok: false, error: String(e) })),
+      sendGa4Event({
+        client_id: newClientId(),
+        event_name: 'generate_lead',
+        params: {
+          currency: 'MXN',
+          value: 0,
+          content_name: interes,
+          score,
+          utm_source: utm_source || undefined,
+          utm_medium: utm_medium || undefined,
+          utm_campaign: utm_campaign || undefined,
+          event_id,
+        },
+      }).catch((e) => ({ ok: false, error: String(e) })),
+    ]);
+
+    if (!capiRes.ok) {
+      console.warn('Meta CAPI Lead failed:', capiRes.error);
+    }
+    if (!ga4Res.ok) {
+      console.warn('GA4 MP generate_lead failed:', ga4Res.error);
+    }
+
+    // 7. Email de notificación a Cary
     try {
       await resend.emails.send({
         from: 'Arte7 Leads <leads@arte7.net>',
@@ -139,7 +183,14 @@ export async function POST(req: NextRequest) {
       // No falla el request si el email falla
     }
 
-    return NextResponse.json({ success: true, id: data.id, score });
+    return NextResponse.json({
+      success: true,
+      id: data.id,
+      score,
+      event_id,
+      meta_capi_sent: capiRes.ok,
+      ga4_sent: ga4Res.ok,
+    });
   } catch (err) {
     console.error('API error:', err);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });

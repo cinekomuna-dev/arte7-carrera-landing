@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { newEventId, trackLead, readFbCookies, trackViewContent } from '@/lib/tracking';
 
 export default function QROPage() {
   const [formData, setFormData] = useState({
@@ -20,12 +21,16 @@ export default function QROPage() {
       medium: params.get('utm_medium') || '',
       campaign: params.get('utm_campaign') || '',
     });
+    trackViewContent({ name: 'carrera_qro', category: 'landing' });
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
     setErrorMsg('');
+
+    const event_id = newEventId();
+    const fbCookies = readFbCookies();
 
     try {
       const res = await fetch('/api/lead', {
@@ -36,11 +41,15 @@ export default function QROPage() {
           utm_source: utm.source,
           utm_medium: utm.medium,
           utm_campaign: utm.campaign,
+          event_id,
+          fbp: fbCookies.fbp,
+          fbc: fbCookies.fbc,
         }),
       });
 
       if (!res.ok) throw new Error('Error al enviar');
 
+      trackLead({ event_id, program: formData.interes || 'carrera_qro' });
       setStatus('success');
       setFormData({ nombre: '', email: '', telefono: '', interes: 'Carrera Querétaro' });
 
