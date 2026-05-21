@@ -30,7 +30,7 @@ export default function LoginPage() {
     <div className="login-page">
       <form className="login-form" onSubmit={handleLogin}>
         <div className="login-logo">
-          <img src="/logo-blanco.png" alt="Arte7" style={{ height: 80, width: 'auto' }} />
+          <img src="/logo.png" alt="Arte7" style={{ height: 80, width: 'auto' }} />
         </div>
         <h1 className="login-title">DASHBOARD DE LEADS</h1>
         <p className="login-sub">// Acceso restringido — Arte7 Staff</p>
