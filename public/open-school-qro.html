@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arte7 QRO — Propuesta Escuela Abierta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #1A1A1A;
+      --cream: #FDF3E0;
+      --red: #FF492F;
+      --teal: #038B96;
+    }
+
+    body {
+      background: #111;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ─── PASSWORD GATE ─── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    #gate.hidden { display: none; }
+
+    #gate h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+    }
+
+    #gate h1 span { color: var(--red); }
+
+    #gate p {
+      font-size: 14px;
+      color: rgba(253,243,224,0.4);
+      letter-spacing: 0.1em;
+    }
+
+    #gate input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--cream);
+      padding: 14px 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      letter-spacing: 0.15em;
+      text-align: center;
+      width: 300px;
+      outline: none;
+    }
+
+    #gate input:focus { border-color: var(--red); }
+
+    #gate button {
+      background: var(--red);
+      color: var(--cream);
+      border: none;
+      padding: 12px 36px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #gate .error {
+      color: var(--red);
+      font-size: 13px;
+      display: none;
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    #content { display: none; }
+    #content.visible { display: block; }
+
+    .header {
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .header h1 span { color: var(--red); }
+
+    .header .sub {
+      font-size: 16px;
+      color: rgba(253,243,224,0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      border: 1px solid var(--teal);
+      padding: 8px 20px;
+    }
+
+    .header .badge-dot {
+      width: 8px; height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .header .badge-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    /* ─── OPTIONS GRID ─── */
+    .options {
+      max-width: 1300px;
+      margin: 40px auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+    }
+
+    .option {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .option { flex-direction: column; align-items: center; }
+    }
+
+    .option-img {
+      flex-shrink: 0;
+      width: 540px;
+      max-width: 100%;
+      border: 2px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    .option-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .option-label {
+      position: absolute;
+      top: -1px; left: -1px;
+      background: var(--red);
+      padding: 6px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .option:nth-child(2) .option-label { background: var(--teal); }
+    .option:nth-child(3) .option-label { background: #EE9628; }
+
+    .option-info {
+      flex: 1;
+      padding-top: 20px;
+    }
+
+    .option-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .option-style {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 18px;
+    }
+
+    .option:nth-child(2) .option-style { color: var(--teal); }
+    .option:nth-child(3) .option-style { color: #EE9628; }
+
+    .option-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(253,243,224,0.7);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .option-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(253,243,224,0.5);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      max-width: 600px;
+      margin: 40px auto 0;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: rgba(253,243,224,0.4);
+      line-height: 1.6;
+    }
+
+    .footer .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: rgba(253,243,224,0.25);
+      margin-top: 16px;
+    }
+
+    .footer .brand span { color: var(--red); opacity: 0.4; }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <h1>ARTE<span>7</span></h1>
+  <p>Contenido protegido</p>
+  <input type="password" id="pw" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Entrar</button>
+  <div class="error" id="err">Contraseña incorrecta</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+
+  <div class="header">
+    <h1>ESCUELA ABIERTA<span> — </span>QRO</h1>
+    <div class="sub">Propuesta de diseño · Campaña Abril 2026</div>
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <div class="badge-text">3 opciones para elegir</div>
+    </div>
+  </div>
+
+  <div class="options">
+
+    <!-- OPCIÓN A -->
+    <div class="option">
+      <div class="option-img">
+        <div class="option-label">Opción A</div>
+        <img src="/open-school/opcion_A.png" alt="Opción A">
+      </div>
+      <div class="option-info">
+        <div class="option-title">Cinematográfica / Bold</div>
+        <div class="option-style">Tono aspiracional</div>
+        <div class="option-desc">
+          Fondo oscuro con elementos de film strip diagonal. Tipografía impactante
+          con "ESTUDIANTE" resaltado en rojo. Badge de "Escuela Abierta" con indicador
+          animado. Features listados con íconos. Transmite la esencia del cine.
+        </div>
+        <div class="option-tags">
+          <div class="tag">Feed Instagram</div>
+          <div class="tag">Facebook</div>
+          <div class="tag">Aspiracional</div>
+          <div class="tag">Inmersivo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPCIÓN B -->
+    <div class="option">
+      <div class="option-img">
+        <div class="option-label">Opción B</div>
+        <img src="/open-school/opcion_B.png" alt="Opción B">
+      </div>
+      <div class="option-info">
+        <div class="option-title">Fresca / Dos Tonos</div>
+        <div class="option-style">Tono joven e invitante</div>
+        <div class="option-desc">
+          Layout dividido con bloque teal lateral y corte diagonal. La pregunta
+          "¿TE GUSTARÍA ESTUDIAR CINE?" como gancho directo. Bullets con barras
+          de 3 colores. Texto ghost vertical "OPEN SCHOOL". Energía fresca y moderna.
+        </div>
+        <div class="option-tags">
+          <div class="tag">Redes Sociales</div>
+          <div class="tag">Audiencia Joven</div>
+          <div class="tag">Dinámico</div>
+          <div class="tag">Moderno</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPCIÓN C -->
+    <div class="option">
+      <div class="option-img">
+        <div class="option-label">Opción C</div>
+        <img src="/open-school/opcion_C.png" alt="Opción C">
+      </div>
+      <div class="option-info">
+        <div class="option-title">Minimal / Light</div>
+        <div class="option-style">Tono elegante y diferenciador</div>
+        <div class="option-desc">
+          Invierte la paleta: fondo crema claro con tipografía negra gigante.
+          "¿ESTUDIAR CINE?" directo y limpio. Tagline en teal: "Vívelo antes de decidir".
+          Panel oscuro inferior con 3 columnas informativas. Se destaca del feed oscuro habitual.
+        </div>
+        <div class="option-tags">
+          <div class="tag">Diferenciación</div>
+          <div class="tag">Elegante</div>
+          <div class="tag">Minimal</div>
+          <div class="tag">Stand-out</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>Selecciona tu favorita y la pulimos juntos.<br>
+    Después generamos versión Story (9:16) y WhatsApp.</p>
+    <div class="brand">ARTE<span>7</span> × DREAMS MATTER</div>
+  </div>
+
+</div>
+
+<script>
+  const PASS = 'arte7qro';
+
+  if (sessionStorage.getItem('open-school-auth') === 'ok') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('content').classList.add('visible');
+  }
+
+  function checkPw() {
+    if (document.getElementById('pw').value === PASS) {
+      sessionStorage.setItem('open-school-auth', 'ok');
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('content').classList.add('visible');
+    } else {
+      document.getElementById('err').style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+</html>

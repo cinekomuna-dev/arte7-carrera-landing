@@ -53,6 +53,21 @@ export default function QROPage() {
       setStatus('success');
       setFormData({ nombre: '', email: '', telefono: '', interes: 'Carrera Querétaro' });
 
+      // Meta Pixel: evento Lead
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Carrera Querétaro',
+          content_category: 'Carrera QRO',
+        });
+      }
+      // Google Analytics 4: evento generate_lead
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'Carrera QRO',
+          event_label: 'Carrera Querétaro',
+        });
+      }
+
       // Redirigir a WhatsApp después de 2.5 segundos
       setTimeout(() => {
         window.location.href = `https://wa.me/524422810663?text=${encodeURIComponent(
